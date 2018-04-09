@@ -16,7 +16,6 @@ define('SLICK_PALETTE_CONTENT_SLIDER_END', 'slick-content-end');
  */
 $GLOBALS['TL_HOOKS']['loadDataContainer'][]        = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'loadDataContainerHook'];
 $GLOBALS['TL_HOOKS']['parseArticles'][]            = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'parseArticlesHook'];
-$GLOBALS['TL_HOOKS']['replaceDynamicScriptTags'][] = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'hookReplaceDynamicScriptTags'];
 
 /**
  * Supported TL_DCA Entities, spreading efa palette to
@@ -54,14 +53,6 @@ array_insert($GLOBALS['BE_MOD']['system'], 1, [
  */
 $GLOBALS['FE_MOD']['news']['slick_newslist']    = 'HeimrichHannot\SlickBundle\ModuleSlickNewsList';
 $GLOBALS['FE_MOD']['events']['slick_eventlist'] = 'HeimrichHannot\SlickBundle\ModuleSlickEventList';
-
-if (System::getContainer()->get('huh.utils.container')->isFrontend()) {
-    /**
-     * CSS
-     */
-    $GLOBALS['TL_USER_CSS']['slick']        = 'bundles/heimrichhannotcontaoslick/vendor/slick-carousel/slick/slick.css|static';
-    $GLOBALS['TL_USER_CSS']['slick_custom'] = 'bundles/heimrichhannotcontaoslick/css/slick-custom.min.css|static';
-}
 
 /**
  * Content elements
@@ -104,3 +95,4 @@ $GLOBALS['TL_MODELS']['tl_slick_config'] = 'HeimrichHannot\SlickBundle\Model\Sli
 $GLOBALS['MODAL_MODULES']['slick_newslist'] = [
     'invokePalette' => 'customTpl;',
 ];
+

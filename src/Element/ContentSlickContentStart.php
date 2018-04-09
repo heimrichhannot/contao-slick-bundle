@@ -47,8 +47,9 @@ class ContentSlickContentStart extends \ContentElement
         }
         $slickConfig = $container->get('huh.slick.config');
 
-        $this->Template->class  .= ' ' . $slickConfig->getCssClassFromModel($objConfig) . ' slick ' . $slickConfig->getCssClassForContent($this->id);
-        $this->Template->syncid = $slickConfig->getCssClassForContent($this->id);
+        $this->Template->class      .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+        $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
+        $this->Template->syncid     = $slickConfig->getCssClassForContent($this->id);
 
         return $this->Template->parse();
     }

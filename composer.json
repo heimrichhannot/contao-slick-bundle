@@ -61,5 +61,8 @@
   "extra": {
     "contao-manager-plugin": "HeimrichHannot\\SlickBundle\\ContaoManager\\Plugin",
     "foxy": true
+  },
+  "suggest": {
+    "heimrichhannot/contao-encore-bundle": "Provide webpack encore asset support."
   }
 }

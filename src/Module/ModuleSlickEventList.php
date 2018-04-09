@@ -39,7 +39,8 @@ class ModuleSlickEventList extends \ModuleEventlist
         parent::generate();
 
         if ($this->slickConfig > 0 && ($objConfig = SlickConfigModel::findByPk($this->slickConfig)) !== null) {
-            $this->Template->class .= ' ' . SlickConfig::getCssClassFromModel($objConfig) . ' slick';
+            $this->Template->class .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+            $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
         }
 
         return $this->Template->parse();

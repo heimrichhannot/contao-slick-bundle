@@ -60,7 +60,8 @@ class ContentSlick extends \ContentGallery
 
         $gallery = new Slick($container->get('huh.slick.config')->createSettings($this->arrData, $objConfig));
 
-        $this->Template->class  .= ' ' . $container->get('huh.slick.config')->getCssClassFromModel($objConfig) . ' slick';
+        $this->Template->class .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+        $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
         $this->Template->images = $gallery->getImages();
 
         return $this->Template->parse();

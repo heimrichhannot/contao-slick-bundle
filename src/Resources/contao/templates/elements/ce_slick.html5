@@ -2,8 +2,6 @@
 
 <?php $this->block('content'); ?>
 
-<?php echo $this->v2warning; ?>
-
 <?php echo $this->images; ?>
 
 <?php $this->endblock(); ?>

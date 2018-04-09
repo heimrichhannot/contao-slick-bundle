@@ -55,8 +55,9 @@ class ContentSlickNavStart extends \ContentElement
             return '';
         }
 
-        $this->Template->class  .= ' slick-nav ' . $container->get('huh.slick.config')->getCssClassFromModel($objConfig) . ' slick';
-        $this->Template->syncTo = $container->get('huh.slick.config')->getCssClassForContent($this->slickContentSlider);
+        $this->Template->class      .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+        $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
+        $this->Template->syncTo     = $container->get('huh.slick.config')->getCssClassForContent($this->slickContentSlider);
 
 
         return $this->Template->parse();

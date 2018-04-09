@@ -10,28 +10,6 @@ class Hooks extends \Controller
 
     private static $strSpreadDca = 'tl_slick_spread';
 
-    public function hookReplaceDynamicScriptTags($strBuffer)
-    {
-        global $objPage;
-
-        if (!$objPage) {
-            return $strBuffer;
-        }
-
-        $configurations = System::getContainer()->get('huh.slick.model.config')->findAll();
-
-        if ($configurations === null) {
-            return $strBuffer;
-        }
-
-        while ($configurations->next()) {
-            System::getContainer()->get('huh.slick.config')->createConfigJs($configurations->current());
-        }
-
-        return $strBuffer;
-    }
-
-
     public function parseArticlesHook(&$objTemplate, $arrArticle, $objModule)
     {
         if (!$arrArticle['addGallery'] || !$objModule->useSlickGallery) {
