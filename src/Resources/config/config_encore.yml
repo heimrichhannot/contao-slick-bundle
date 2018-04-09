@@ -1,0 +1,4 @@
+huh:
+    encore:
+        entries:
+            - { name: contao-slick-bundle, file: "vendor/heimrichhannot/contao-slick-bundle/src/Resources/assets/js/contao-slick-bundle.js", requiresCss: true }

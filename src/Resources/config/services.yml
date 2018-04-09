@@ -1,0 +1,7 @@
+services:
+  huh.slick.model.config:
+    class: HeimrichHannot\SlickBundle\Model\SlickConfigModel
+    public: true
+  huh.slick.config:
+    class: HeimrichHannot\SlickBundle\Config\SlickConfig
+    public: true

@@ -1,0 +1,13 @@
+<?php $this->extend($this->type == 'slick_newslist' ? 'block_slick' : 'block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+
+<?php if (empty($this->articles)): ?>
+    <p class="empty"><?php echo $this->empty; ?></p>
+<?php else: ?>
+    <?php echo implode('', $this->articles); ?>
+    <?php echo $this->pagination; ?>
+<?php endif; ?>
+
+<?php $this->endblock(); ?>
