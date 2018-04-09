@@ -43,7 +43,6 @@ array_insert($GLOBALS['BE_MOD']['system'], 1, [
 
     'slick_config' => [
         'tables' => ['tl_slick_config'],
-        'icon'   => 'bundles/heimrichhannotcontaoslick/slick.png',
     ],
 ]);
 
