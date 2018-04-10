@@ -14,8 +14,8 @@ define('SLICK_PALETTE_CONTENT_SLIDER_END', 'slick-content-end');
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['loadDataContainer'][]        = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'loadDataContainerHook'];
-$GLOBALS['TL_HOOKS']['parseArticles'][]            = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'parseArticlesHook'];
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'loadDataContainerHook'];
+$GLOBALS['TL_HOOKS']['parseArticles'][]     = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'parseArticlesHook'];
 
 /**
  * Supported TL_DCA Entities, spreading efa palette to
@@ -87,6 +87,11 @@ $GLOBALS['TL_WRAPPERS']['separator'][] = 'slick-nav-separator';
  */
 $GLOBALS['TL_MODELS']['tl_slick_config'] = 'HeimrichHannot\SlickBundle\Model\SlickConfigModel';
 
+if (\Contao\System::getContainer()->get('huh.utils.container')->isFrontend()) {
+    $GLOBALS['TL_USER_CSS']['slick']                 = 'bundles/heimrichhannotcontaoslick/vendor/slick-carousel/slick/slick.css|static';
+    $GLOBALS['TL_JAVASCRIPT']['slick']               = 'bundles/heimrichhannotcontaoslick/vendor/slick-carousel/slick/slick.min.js|static';
+    $GLOBALS['TL_JAVASCRIPT']['contao-slick-bundle'] = 'bundles/heimrichhannotcontaoslick/js/contao-slick-bundle.min.js|static';
+}
 
 /**
  * Modal module configuration
