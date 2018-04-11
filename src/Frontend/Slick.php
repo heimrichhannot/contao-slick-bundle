@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2015 Heimrich & Hannot GmbH
- *
- * @package slick
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\SlickBundle\Frontend;
-
 
 use Contao\FilesModel;
 use Contao\Frontend;
@@ -20,29 +16,28 @@ use Contao\System;
 class Slick extends Frontend
 {
     /**
-     * Current record
+     * Current record.
      *
      * @var array
      */
     protected $data = [];
 
     /**
-     * Current record
+     * Current record.
      *
      * @var \Model
      */
     protected $settings;
 
     /**
-     * Files object
+     * Files object.
      *
      * @var \FilesModel
      */
     protected $files;
 
-
     /**
-     * Template
+     * Template.
      *
      * @var string
      */
@@ -50,40 +45,49 @@ class Slick extends Frontend
 
     public function __construct($objSettings)
     {
-        $this->data     = $objSettings->row();
+        $this->data = $objSettings->row();
         $this->settings = $objSettings;
         $this->Template = new \FrontendTemplate($this->strTemplate);
         $this->getFiles();
     }
 
-    protected function getFiles()
+    /**
+     * Return an object property.
+     *
+     * @param string
+     *
+     * @return mixed
+     */
+    public function __get($key)
     {
-        // Use the home directory of the current user as file source
-        if ($this->slickUseHomeDir && FE_USER_LOGGED_IN) {
-            $this->import('FrontendUser', 'User');
-
-            if ($this->User->assignDir && $this->User->homeDir) {
-                $this->slickMultiSRC = [$this->User->homeDir];
-            }
-        } else {
-            $this->slickMultiSRC = StringUtil::deserialize($this->slickMultiSRC);
+        if (isset($this->data[$key])) {
+            return $this->data[$key];
         }
 
-        // Return if there are no files
-        if (!is_array($this->slickMultiSRC) || empty($this->slickMultiSRC)) {
-            return '';
-        }
+        return parent::__get($key);
+    }
 
-        // Get the file entries from the database
-        $this->files = System::getContainer()->get('contao.framework')->getAdapter(FilesModel::class)->findMultipleByUuids($this->slickMultiSRC);
+    /**
+     * Set an object property.
+     *
+     * @param string
+     * @param mixed
+     */
+    public function __set($key, $value)
+    {
+        $this->data[$key] = $value;
+    }
 
-        if ($this->files === null) {
-            if (!\Validator::isUuid($this->slickMultiSRC[0])) {
-                return '<p class="error">' . $GLOBALS['TL_LANG']['ERR']['version2format'] . '</p>';
-            }
-
-            return '';
-        }
+    /**
+     * Check whether a property is set.
+     *
+     * @param string
+     *
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return isset($this->data[$key]);
     }
 
     public function parse()
@@ -97,25 +101,24 @@ class Slick extends Frontend
     {
         global $objPage;
 
-        $images  = [];
+        $images = [];
         $auxDate = [];
-        $files   = $this->files;
+        $files = $this->files;
 
-        if ($files === null) {
+        if (null === $files) {
             return '';
         }
 
         // Get all images
         while ($files->next()) {
             // Continue if the files has been processed or does not exist
-            if (isset($images[$files->path]) || !file_exists(TL_ROOT . '/' . $files->path)) {
+            if (isset($images[$files->path]) || !file_exists(TL_ROOT.'/'.$files->path)) {
                 continue;
             }
 
             // Single files
-            if ($files->type == 'file') {
-
-                if (($image = $this->prepareImage($files->current())) === false) {
+            if ('file' == $files->type) {
+                if (false === ($image = $this->prepareImage($files->current()))) {
                     continue;
                 }
 
@@ -126,22 +129,22 @@ class Slick extends Frontend
             else {
                 $subFiles = System::getContainer()->get('contao.framework')->getAdapter(FilesModel::class)->findByPid($files->uuid);
 
-                if ($subFiles === null) {
+                if (null === $subFiles) {
                     continue;
                 }
 
                 while ($subFiles->next()) {
                     // Continue if the files has been processed or does not exist
-                    if (isset($images[$subFiles->path]) || !file_exists(TL_ROOT . '/' . $subFiles->path)) {
+                    if (isset($images[$subFiles->path]) || !file_exists(TL_ROOT.'/'.$subFiles->path)) {
                         continue;
                     }
 
                     // Skip subfolders
-                    if ($subFiles->type == 'folder') {
+                    if ('folder' == $subFiles->type) {
                         continue;
                     }
 
-                    if (($image = $this->prepareImage($subFiles->current())) === false) {
+                    if (false === ($image = $this->prepareImage($subFiles->current()))) {
                         continue;
                     }
 
@@ -178,7 +181,7 @@ class Slick extends Frontend
 
             case 'meta': // Backwards compatibility
             case 'custom':
-                if ($this->slickOrderSRC != '') {
+                if ('' != $this->slickOrderSRC) {
                     $tmp = deserialize($this->slickOrderSRC);
 
                     if (!empty($tmp) && is_array($tmp)) {
@@ -219,17 +222,17 @@ class Slick extends Frontend
         }
 
         $offset = 0;
-        $total  = count($images);
-        $limit  = $total;
+        $total = count($images);
+        $limit = $total;
 
-        $intMaxWidth   = (TL_MODE == 'BE') ? floor((640 / $total)) : (\Config::get('maxImageWidth') > 0 ? floor((\Config::get('maxImageWidth') / $total)) : null);
-        $strLightboxId = 'lightbox[lb' . $this->id . ']';
-        $body          = [];
+        $intMaxWidth = (TL_MODE == 'BE') ? floor((640 / $total)) : (\Config::get('maxImageWidth') > 0 ? floor((\Config::get('maxImageWidth') / $total)) : null);
+        $strLightboxId = 'lightbox[lb'.$this->id.']';
+        $body = [];
 
         $strTemplate = 'slick_default';
 
         // Use a custom template
-        if (TL_MODE == 'FE' && $this->slickgalleryTpl != '') {
+        if (TL_MODE == 'FE' && '' != $this->slickgalleryTpl) {
             $strTemplate = $this->slickgalleryTpl;
         }
 
@@ -237,24 +240,54 @@ class Slick extends Frontend
         $objTemplate->setData($this->data);
 
         $this->Template->setData($this->data);
-        $this->Template->class .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($this->settings) . ' slick';
+        $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($this->settings).' slick';
 
-        for ($i = $offset; $i < $limit; $i++) {
-            $objImage               = new \stdClass();
-            $images[$i]['size']     = $this->slickSize;
+        for ($i = $offset; $i < $limit; ++$i) {
+            $objImage = new \stdClass();
+            $images[$i]['size'] = $this->slickSize;
             $images[$i]['fullsize'] = $this->slickFullsize;
             \Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
             $body[$i] = $objImage;
         }
 
-        $objTemplate->body     = $body;
+        $objTemplate->body = $body;
         $objTemplate->headline = $this->headline; // see #1603
 
         return $objTemplate->parse();
     }
 
+    protected function getFiles()
+    {
+        // Use the home directory of the current user as file source
+        if ($this->slickUseHomeDir && FE_USER_LOGGED_IN) {
+            $this->import('FrontendUser', 'User');
+
+            if ($this->User->assignDir && $this->User->homeDir) {
+                $this->slickMultiSRC = [$this->User->homeDir];
+            }
+        } else {
+            $this->slickMultiSRC = StringUtil::deserialize($this->slickMultiSRC);
+        }
+
+        // Return if there are no files
+        if (!is_array($this->slickMultiSRC) || empty($this->slickMultiSRC)) {
+            return '';
+        }
+
+        // Get the file entries from the database
+        $this->files = System::getContainer()->get('contao.framework')->getAdapter(FilesModel::class)->findMultipleByUuids($this->slickMultiSRC);
+
+        if (null === $this->files) {
+            if (!\Validator::isUuid($this->slickMultiSRC[0])) {
+                return '<p class="error">'.$GLOBALS['TL_LANG']['ERR']['version2format'].'</p>';
+            }
+
+            return '';
+        }
+    }
+
     /**
-     * Prepare data for image template
+     * Prepare data for image template.
      *
      * @param FilesModel $model
      *
@@ -273,63 +306,23 @@ class Slick extends Frontend
         $arrMeta = $this->getMetaData($model->meta, $objPage->language);
 
         // Use the file name as title if none is given
-        if ($arrMeta['title'] == '') {
+        if ('' == $arrMeta['title']) {
             $arrMeta['title'] = StringUtil::specialchars($file->basename);
         }
 
         $image = [
-            'id'        => $model->id,
-            'uuid'      => $model->uuid,
-            'name'      => $file->basename,
-            'file'      => $file,
-            'model'     => $model,
+            'id' => $model->id,
+            'uuid' => $model->uuid,
+            'name' => $file->basename,
+            'file' => $file,
+            'model' => $model,
             'singleSRC' => $model->path,
-            'alt'       => version_compare(VERSION, '4.0', '<') ? $arrMeta['title'] : $arrMeta['alt'],
-            'imageUrl'  => $arrMeta['link'],
-            'caption'   => $arrMeta['caption'],
-            'title'     => $arrMeta['title'],
+            'alt' => version_compare(VERSION, '4.0', '<') ? $arrMeta['title'] : $arrMeta['alt'],
+            'imageUrl' => $arrMeta['link'],
+            'caption' => $arrMeta['caption'],
+            'title' => $arrMeta['title'],
         ];
 
         return $image;
     }
-
-    /**
-     * Return an object property
-     *
-     * @param string
-     *
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
-        }
-
-        return parent::__get($key);
-    }
-
-    /**
-     * Set an object property
-     *
-     * @param string
-     * @param mixed
-     */
-    public function __set($key, $value)
-    {
-        $this->data[$key] = $value;
-    }
-
-    /**
-     * Check whether a property is set
-     *
-     * @param string
-     *
-     * @return boolean
-     */
-    public function __isset($key)
-    {
-        return isset($this->data[$key]);
-    }
-
 }

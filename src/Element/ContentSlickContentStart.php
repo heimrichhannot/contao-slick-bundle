@@ -1,12 +1,9 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2015 Heimrich & Hannot GmbH
- *
- * @package slick
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\SlickBundle\Element;
@@ -15,20 +12,18 @@ use Contao\System;
 
 class ContentSlickContentStart extends \ContentElement
 {
-
     /**
-     * Template
+     * Template.
      *
      * @var string
      */
     protected $strTemplate = 'ce_slick_content_start';
 
-
     public function generate()
     {
         if (System::getContainer()->get('huh.utils.container')->isBackend()) {
-            $this->strTemplate     = 'be_wildcard';
-            $this->Template        = new \BackendTemplate($this->strTemplate);
+            $this->strTemplate = 'be_wildcard';
+            $this->Template = new \BackendTemplate($this->strTemplate);
             $this->Template->title = $this->headline;
         }
 
@@ -42,20 +37,20 @@ class ContentSlickContentStart extends \ContentElement
 
         $objConfig = $container->get('huh.slick.model.config')->findByPk($this->slickConfig);
 
-        if ($objConfig === null) {
+        if (null === $objConfig) {
             return '';
         }
         $slickConfig = $container->get('huh.slick.config');
 
-        $this->Template->class      .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+        $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
         $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
-        $this->Template->syncid     = $slickConfig->getCssClassForContent($this->id);
+        $this->Template->syncid = $slickConfig->getCssClassForContent($this->id);
 
         return $this->Template->parse();
     }
 
     /**
-     * Generate the content element
+     * Generate the content element.
      */
     protected function compile()
     {

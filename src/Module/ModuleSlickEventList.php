@@ -1,12 +1,9 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2015 Heimrich & Hannot GmbH
- *
- * @package slick
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\SlickBundle;
@@ -16,7 +13,7 @@ use Patchwork\Utf8;
 class ModuleSlickEventList extends \ModuleEventlist
 {
     /**
-     * Template
+     * Template.
      *
      * @var string
      */
@@ -27,28 +24,27 @@ class ModuleSlickEventList extends \ModuleEventlist
         if (TL_MODE == 'BE') {
             $objTemplate = new \BackendTemplate('be_wildcard');
 
-            $objTemplate->wildcard = '### ' . Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['eventlist'][0]) . ' ###';
-            $objTemplate->title    = $this->headline;
-            $objTemplate->id       = $this->id;
-            $objTemplate->link     = $this->name;
-            $objTemplate->href     = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['eventlist'][0]).' ###';
+            $objTemplate->title = $this->headline;
+            $objTemplate->id = $this->id;
+            $objTemplate->link = $this->name;
+            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
 
             return $objTemplate->parse();
         }
 
         parent::generate();
 
-        if ($this->slickConfig > 0 && ($objConfig = SlickConfigModel::findByPk($this->slickConfig)) !== null) {
-            $this->Template->class .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+        if ($this->slickConfig > 0 && null !== ($objConfig = SlickConfigModel::findByPk($this->slickConfig))) {
+            $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
             $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
         }
 
         return $this->Template->parse();
     }
 
-
     /**
-     * Generate the module
+     * Generate the module.
      */
     protected function compile()
     {

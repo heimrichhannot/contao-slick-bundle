@@ -1,35 +1,29 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2015 Heimrich & Hannot GmbH
- *
- * @package slick
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\SlickBundle\Element;
-
 
 use Contao\System;
 
 class ContentSlickNavStart extends \ContentElement
 {
-
     /**
-     * Template
+     * Template.
      *
      * @var string
      */
     protected $strTemplate = 'ce_slick_nav_start';
 
-
     public function generate()
     {
         if (System::getContainer()->get('huh.utils.container')->isBackend()) {
-            $this->strTemplate     = 'be_wildcard';
-            $this->Template        = new \BackendTemplate($this->strTemplate);
+            $this->strTemplate = 'be_wildcard';
+            $this->Template = new \BackendTemplate($this->strTemplate);
             $this->Template->title = $this->headline;
         }
 
@@ -42,29 +36,27 @@ class ContentSlickNavStart extends \ContentElement
 
         $objConfig = $container->get('huh.slick.model.config')->findByPk($this->slickConfig);
 
-        if ($objConfig === null) {
+        if (null === $objConfig) {
             return '';
         }
-
 
         if (!$this->slickContentSlider) {
             return '';
         }
 
-        if (($objSlider = \ContentModel::findByPk($this->slickContentSlider)) === null) {
+        if (null === ($objSlider = \ContentModel::findByPk($this->slickContentSlider))) {
             return '';
         }
 
-        $this->Template->class      .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+        $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
         $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
-        $this->Template->syncTo     = $container->get('huh.slick.config')->getCssClassForContent($this->slickContentSlider);
-
+        $this->Template->syncTo = $container->get('huh.slick.config')->getCssClassForContent($this->slickContentSlider);
 
         return $this->Template->parse();
     }
 
     /**
-     * Generate the content element
+     * Generate the content element.
      */
     protected function compile()
     {

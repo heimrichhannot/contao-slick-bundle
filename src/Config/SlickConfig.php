@@ -1,23 +1,15 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2015 Heimrich & Hannot GmbH
- *
- * @package slick
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\SlickBundle\Config;
 
 use Contao\Config;
-use Contao\File;
-use Contao\FrontendTemplate;
-use Contao\LayoutModel;
-use Contao\StringUtil;
 use Contao\System;
-use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class SlickConfig
 {
@@ -25,7 +17,7 @@ class SlickConfig
     {
         $arrData = $this->createConfig($objConfig);
 
-        $attributes = ' data-config="' . htmlspecialchars(json_encode($arrData['config']), ENT_QUOTES, Config::get('characterSet')) . '"';
+        $attributes = ' data-config="'.htmlspecialchars(json_encode($arrData['config']), ENT_QUOTES, Config::get('characterSet')).'"';
 
         return $attributes;
     }
@@ -34,11 +26,11 @@ class SlickConfig
     {
         \Controller::loadDataContainer('tl_slick_spread');
 
-        $arrConfig  = [];
+        $arrConfig = [];
         $arrObjects = [];
 
         foreach ($objConfig->row() as $key => $value) {
-            if (strstr($key, 'slick_') === false) {
+            if (false === strstr($key, 'slick_')) {
                 continue;
             }
 
@@ -51,14 +43,14 @@ class SlickConfig
             $slickKey = substr($key, 6); // trim slick_ prefix
 
             if ($arrData['eval']['rgxp'] == 'digit') {
-                $value = intval($value);
+                $value = (int) $value;
             }
 
-            if ($arrData['inputType'] == 'checkbox' && !$arrData['eval']['multiple']) {
-                $value = (bool)filter_var($value, FILTER_VALIDATE_BOOLEAN);
+            if ('checkbox' == $arrData['inputType'] && !$arrData['eval']['multiple']) {
+                $value = (bool) filter_var($value, FILTER_VALIDATE_BOOLEAN);
             }
 
-            if ($arrData['eval']['multiple'] || $arrData['inputType'] == 'multiColumnEditor') {
+            if ($arrData['eval']['multiple'] || 'multiColumnEditor' == $arrData['inputType']) {
                 $value = deserialize($value, true);
             }
 
@@ -67,11 +59,11 @@ class SlickConfig
             }
 
             // check type as well, otherwise
-            if ($value === '') {
+            if ('' === $value) {
                 continue;
             }
 
-            if ($key == 'slick_responsive') {
+            if ('slick_responsive' == $key) {
                 $arrResponsive = [];
 
                 foreach ($value as $config) {
@@ -81,7 +73,7 @@ class SlickConfig
 
                     $objResponsiveConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($config['slick_settings']);
 
-                    if ($objResponsiveConfig === null) {
+                    if (null === $objResponsiveConfig) {
                         continue;
                     }
 
@@ -98,7 +90,6 @@ class SlickConfig
 
                     unset($config['slick_settings']);
 
-
                     $arrResponsive[] = $config;
                 }
 
@@ -109,12 +100,11 @@ class SlickConfig
                 }
             }
 
-            if ($key == 'slick_asNavFor') {
-
+            if ('slick_asNavFor' == $key) {
                 if ($value > 0) {
                     $objTargetConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($value);
 
-                    if ($objTargetConfig !== null) {
+                    if (null !== $objTargetConfig) {
                         $value = $this->getSlickContainerSelectorFromModel($objTargetConfig);
                     } else {
                         $value = null; // should be null by default
@@ -137,7 +127,7 @@ class SlickConfig
         }
 
         $arrReturn = [
-            'config'  => $arrConfig,
+            'config' => $arrConfig,
             'objects' => $arrObjects,
         ];
 
@@ -146,14 +136,14 @@ class SlickConfig
 
     public function getSlickContainerSelectorFromModel($objConfig)
     {
-        return '.' . $this->getSlickCssClassFromModel($objConfig) . ' .slick-container';
+        return '.'.$this->getSlickCssClassFromModel($objConfig).' .slick-container';
     }
 
     public function getSlickCssClassFromModel($objConfig)
     {
         $strClass = $this->stripNamespaceFromClassName($objConfig);
 
-        return 'slick_' . substr(md5($strClass . '_' . $objConfig->id), 0, 6);
+        return 'slick_'.substr(md5($strClass.'_'.$objConfig->id), 0, 6);
     }
 
     public function stripNamespaceFromClassName($obj)
@@ -169,9 +159,6 @@ class SlickConfig
 
     public function getCssClassFromModel($objConfig)
     {
-        return $this->getSlickCssClassFromModel($objConfig) . (strlen($objConfig->cssClass) > 0 ? ' ' . $objConfig->cssClass : '') . ' slick_uid_' . uniqid() . ' slick';
+        return $this->getSlickCssClassFromModel($objConfig).(strlen($objConfig->cssClass) > 0 ? ' '.$objConfig->cssClass : '').' slick_uid_'.uniqid().' slick';
     }
 }
-
-
-
