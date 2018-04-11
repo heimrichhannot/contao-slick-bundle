@@ -9,7 +9,9 @@
 namespace HeimrichHannot\SlickBundle\Config;
 
 use Contao\Config;
+use Contao\StringUtil;
 use Contao\System;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class SlickConfig
 {
@@ -160,5 +162,34 @@ class SlickConfig
     public function getCssClassFromModel($objConfig)
     {
         return $this->getSlickCssClassFromModel($objConfig).(strlen($objConfig->cssClass) > 0 ? ' '.$objConfig->cssClass : '').' slick_uid_'.uniqid().' slick';
+    }
+
+    /**
+     * @param array            $data
+     * @param SlickConfigModel $config
+     *
+     * @return SlickConfigModel
+     */
+    public function createSettings(array $data, SlickConfigModel $config)
+    {
+        \Controller::loadDataContainer('tl_slick_spread');
+
+        $settings = $config;
+
+        foreach ($data as $key => $value) {
+            if ('slick' != substr($key, 0, 5)) {
+                continue;
+            }
+
+            $data = &$GLOBALS['TL_DCA']['tl_slick_spread']['fields'][$key];
+
+            if ($data['eval']['multiple'] || 'slickOrderSRC' == $key) {
+                $value = StringUtil::deserialize($value, true);
+            }
+
+            $settings->{$key} = $value;
+        }
+
+        return $settings;
     }
 }
