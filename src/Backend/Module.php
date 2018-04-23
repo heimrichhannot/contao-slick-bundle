@@ -1,15 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2017 Heimrich & Hannot GmbH
- *
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\SlickBundle\Backend;
-
 
 use Contao\ModuleModel;
 use Contao\System;
@@ -17,7 +14,7 @@ use Contao\System;
 class Module extends \Contao\Backend
 {
     /**
-     * Modify data container config
+     * Modify data container config.
      *
      * @param \DataContainer $dc
      */
@@ -25,21 +22,20 @@ class Module extends \Contao\Backend
     {
         $objModule = System::getContainer()->get('contao.framework')->getAdapter(ModuleModel::class)->findByPk($dc->id);
 
-        if ($objModule === null) {
+        if (null === $objModule) {
             return;
         }
 
         $dca = &$GLOBALS['TL_DCA']['tl_module'];
 
-        if ($objModule->type == 'slick_newslist') {
+        if ('slick_newslist' == $objModule->type) {
             $dca['fields']['customTpl']['options'] = $this->getTemplateGroup('mod_newslist');
             unset($dca['fields']['customTpl']['options_callback']);
         }
 
-        if ($objModule->type == 'slick_eventlist') {
+        if ('slick_eventlist' == $objModule->type) {
             $dca['fields']['customTpl']['options'] = $this->getTemplateGroup('mod_eventlist');
             unset($dca['fields']['customTpl']['options_callback']);
         }
     }
-
 }

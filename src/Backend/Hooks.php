@@ -1,5 +1,11 @@
 <?php
 
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
+ */
+
 namespace HeimrichHannot\SlickBundle\Backend;
 
 use Contao\System;
@@ -7,7 +13,6 @@ use HeimrichHannot\SlickBundle\Frontend\Slick;
 
 class Hooks extends \Controller
 {
-
     private static $strSpreadDca = 'tl_slick_spread';
 
     public function parseArticlesHook(&$objTemplate, $arrArticle, $objModule)
@@ -18,7 +23,7 @@ class Hooks extends \Controller
 
         $objArchive = \NewsArchiveModel::findByPk($arrArticle['pid']);
 
-        if ($objArchive === null) {
+        if (null === $objArchive) {
             return;
         }
 
@@ -28,7 +33,7 @@ class Hooks extends \Controller
 
         $objConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($objArchive->slickConfig);
 
-        if ($objConfig === null) {
+        if (null === $objConfig) {
             return;
         }
 
@@ -40,19 +45,18 @@ class Hooks extends \Controller
         $objTemplate->gallery = $objGallery->parse();
     }
 
-
     /**
-     * Spread Fields to existing DataContainers
+     * Spread Fields to existing DataContainers.
      *
      * @param string $strName
      *
-     * @return boolean false if Datacontainer not supported
+     * @return bool false if Datacontainer not supported
      */
     public function loadDataContainerHook($strName)
     {
         \Controller::loadDataContainer(static::$strSpreadDca);
 
-        if (!is_array($GLOBALS['TL_SLICK']['SUPPORTED']) || !in_array($strName, array_keys($GLOBALS['TL_SLICK']['SUPPORTED']))) {
+        if (!is_array($GLOBALS['TL_SLICK']['SUPPORTED']) || !in_array($strName, array_keys($GLOBALS['TL_SLICK']['SUPPORTED']), true)) {
             return false;
         }
 
@@ -62,30 +66,29 @@ class Hooks extends \Controller
 
         $dc = &$GLOBALS['TL_DCA'][$strName];
 
-        if ($dc === null) {
+        if (null === $dc) {
             return;
         }
 
         foreach ($GLOBALS['TL_SLICK']['SUPPORTED'][$strName] as $strPalette => $replace) {
-
             preg_match_all('#\[\[(?P<constant>.+)\]\]#', $replace, $matches);
 
             if (!isset($matches['constant'][0])) {
                 continue;
             }
 
-            $strConstant       = $matches['constant'][0];
+            $strConstant = $matches['constant'][0];
             $strReplacePalette = @constant($matches['constant'][0]);
 
-            $pos    = strpos($replace, '[[' . $strConstant . ']]');
-            $search = str_replace('[[' . $strConstant . ']]', '', $replace);
+            $pos = strpos($replace, '[['.$strConstant.']]');
+            $search = str_replace('[['.$strConstant.']]', '', $replace);
 
             // prepend slick config palette
             if ($pos < 1) {
-                $replace = $GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes'][$strReplacePalette] . $search;
+                $replace = $GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes'][$strReplacePalette].$search;
             } // append slick config palette
             else {
-                $replace = $search . $GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes'][$strReplacePalette];
+                $replace = $search.$GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes'][$strReplacePalette];
             }
 
             $arrFields = static::getPaletteFields($strReplacePalette, $dc);
@@ -98,7 +101,7 @@ class Hooks extends \Controller
                 $dc['palettes'][$strPalette] = $replace;
             } else {
                 // do not replace multiple times
-                if (!$replace || strpos($dc['palettes'][$strPalette], $replace) !== false) {
+                if (!$replace || false !== strpos($dc['palettes'][$strPalette], $replace)) {
                     continue;
                 }
 
@@ -117,7 +120,6 @@ class Hooks extends \Controller
 
                 foreach ($arrSelectors as $key) {
                     $arrFields = array_merge($arrFields, static::getPaletteFields($key, $dc, 'subpalettes'));
-
                 }
 
                 $dc['subpalettes'] = array_merge(is_array($dc['subpalettes']) ? $dc['subpalettes'] : [], $GLOBALS['TL_DCA'][static::$strSpreadDca]['subpalettes']);
@@ -148,7 +150,7 @@ class Hooks extends \Controller
 
         if (!empty($boxes)) {
             foreach ($boxes as $k => $v) {
-                $eCount    = 1;
+                $eCount = 1;
                 $boxes[$k] = trimsplit(',', $v);
 
                 foreach ($boxes[$k] as $kk => $vv) {
@@ -188,5 +190,4 @@ class Hooks extends \Controller
 
         return $arrFields;
     }
-
 }

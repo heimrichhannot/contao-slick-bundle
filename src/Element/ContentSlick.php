@@ -1,12 +1,9 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2018 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2015 Heimrich & Hannot GmbH
- *
- * @package slick
- * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
 namespace HeimrichHannot\SlickBundle\Element;
@@ -17,14 +14,14 @@ use HeimrichHannot\SlickBundle\Frontend\Slick;
 class ContentSlick extends \ContentGallery
 {
     /**
-     * Template
+     * Template.
      *
      * @var string
      */
     protected $strTemplate = 'ce_slick';
 
     /**
-     * Return if there are no files
+     * Return if there are no files.
      *
      * @return string
      */
@@ -44,23 +41,23 @@ class ContentSlick extends \ContentGallery
 
         $objConfig = $container->get('huh.slick.model.config')->findByPk($this->slickConfig);
 
-        if ($objConfig === null) {
+        if (null === $objConfig) {
             return '';
         }
 
         // Map content fields to slick fields
-        $this->arrData['slickMultiSRC']      = $this->arrData['multiSRC'];
-        $this->arrData['slickOrderSRC']      = $this->arrData['orderSRC'];
-        $this->arrData['slickSortBy']        = $this->arrData['sortBy'];
-        $this->arrData['slickUseHomeDir']    = $this->arrData['useHomeDir'];
-        $this->arrData['slickSize']          = $this->arrData['size'];
-        $this->arrData['slickFullsize']      = $this->arrData['fullsize'];
+        $this->arrData['slickMultiSRC'] = $this->arrData['multiSRC'];
+        $this->arrData['slickOrderSRC'] = $this->arrData['orderSRC'];
+        $this->arrData['slickSortBy'] = $this->arrData['sortBy'];
+        $this->arrData['slickUseHomeDir'] = $this->arrData['useHomeDir'];
+        $this->arrData['slickSize'] = $this->arrData['size'];
+        $this->arrData['slickFullsize'] = $this->arrData['fullsize'];
         $this->arrData['slickNumberOfItems'] = $this->arrData['numberOfItems'];
-        $this->arrData['slickCustomTpl']     = $this->arrData['customTpl'];
+        $this->arrData['slickCustomTpl'] = $this->arrData['customTpl'];
 
         $gallery = new Slick(Slick::createSettings($this->arrData, $objConfig));
 
-        $this->Template->class .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
+        $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
         $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
         $this->Template->images = $gallery->getImages();
 
