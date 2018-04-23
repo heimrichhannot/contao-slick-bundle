@@ -16,6 +16,7 @@ use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\StringUtil;
 use Contao\System;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class Slick extends Frontend
 {
@@ -85,6 +86,24 @@ class Slick extends Frontend
             return '';
         }
     }
+
+    public static function createSettings(array $arrData = [], SlickConfigModel $objConfig)
+    {
+        \Controller::loadDataContainer('tl_slick_spread');
+        $objSettings = $objConfig;
+        foreach ($arrData as $key => $value) {
+            if (substr($key, 0, 5) != 'slick') {
+                continue;
+            }
+            $arrData = &$GLOBALS['TL_DCA']['tl_slick_spread']['fields'][$key];
+            if ($arrData['eval']['multiple'] || $key == 'slickOrderSRC') {
+                $value = StringUtil::deserialize($value, true);
+            }
+            $objSettings->{$key} = $value;
+        }
+        return $objSettings;
+    }
+
 
     public function parse()
     {

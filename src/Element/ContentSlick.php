@@ -58,7 +58,7 @@ class ContentSlick extends \ContentGallery
         $this->arrData['slickNumberOfItems'] = $this->arrData['numberOfItems'];
         $this->arrData['slickCustomTpl']     = $this->arrData['customTpl'];
 
-        $gallery = new Slick($container->get('huh.slick.config')->createSettings($this->arrData, $objConfig));
+        $gallery = new Slick(Slick::createSettings($this->arrData, $objConfig));
 
         $this->Template->class .= ' ' . System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
         $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
