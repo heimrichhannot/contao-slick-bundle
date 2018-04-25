@@ -9,7 +9,7 @@
 
                 // initialize slick, if more than one slide
                 if (total > 1) {
-                    var config = container.data('config');
+                    var config = container.data('slickConfig');
                     $this.data('slick', container.not('.slick-initialized').slick(config));
 
                     // add slick-initialized for non-slick sliders, otherwise the will stay invisible

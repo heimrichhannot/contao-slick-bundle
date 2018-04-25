@@ -24,7 +24,7 @@ require('../scss/contao-slick-bundle.scss');
 
                 // initialize slick, if more than one slide
                 if (total > 1) {
-                    let config = container.data('config');
+                    let config = container.data('slickConfig');
 
                     $this.data('slick', container.not('.slick-initialized').slick(config));
 

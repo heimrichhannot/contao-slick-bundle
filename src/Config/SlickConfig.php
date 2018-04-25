@@ -19,7 +19,7 @@ class SlickConfig
     {
         $arrData = $this->createConfig($objConfig);
 
-        $attributes = ' data-config="'.htmlspecialchars(json_encode($arrData['config']), ENT_QUOTES, Config::get('characterSet')).'"';
+        $attributes = ' data-slick-config="'.htmlspecialchars(json_encode($arrData['config']), ENT_QUOTES, Config::get('characterSet')).'"';
 
         return $attributes;
     }
