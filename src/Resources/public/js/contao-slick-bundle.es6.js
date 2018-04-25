@@ -18,14 +18,14 @@ require('../scss/contao-slick-bundle.scss');
     let slickBundle = {
         init : function(){
             $('.slick').each(function(){
-
                 let $this = $(this),
                     container = $this.find('.slick-container'),
                     total = container.children().length;
 
                 // initialize slick, if more than one slide
                 if (total > 1) {
-                    let config = $this.data('config');
+                    let config = container.data('config');
+
                     $this.data('slick', container.not('.slick-initialized').slick(config));
 
                     // add slick-initialized for non-slick sliders, otherwise the will stay invisible
