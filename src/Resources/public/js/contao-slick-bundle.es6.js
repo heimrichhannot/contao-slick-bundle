@@ -26,7 +26,11 @@ require('../scss/contao-slick-bundle.scss');
                 if (total > 1) {
                     let config = container.data('slickConfig');
 
-                    $this.data('slick', container.not('.slick-initialized').slick(config));
+                    // don't init sliders if inside a hidden collapse -> done in shown.bs.collapse event
+                    if ($this.closest('.collapse').length <= 0 || $this.closest('.collapse').hasClass('show'))
+                    {
+                        $this.data('slick', container.not('.slick-initialized').slick(config));
+                    }
 
                     // add slick-initialized for non-slick sliders, otherwise the will stay invisible
                 } else {
@@ -43,6 +47,10 @@ require('../scss/contao-slick-bundle.scss');
     });
 
     $(document).on('shown.bs.modal', '.modal', function() {
+        slickBundle.init();
+    });
+
+    $(document).on('shown.bs.collapse', '.collapse', function() {
         slickBundle.init();
     });
 

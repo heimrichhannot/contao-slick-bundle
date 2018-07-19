@@ -10,7 +10,12 @@
                 // initialize slick, if more than one slide
                 if (total > 1) {
                     var config = container.data('slickConfig');
-                    $this.data('slick', container.not('.slick-initialized').slick(config));
+
+                    // don't init sliders if inside a hidden collapse -> done in shown.bs.collapse event
+                    if ($this.closest('.collapse').length <= 0 || $this.closest('.collapse').hasClass('show'))
+                    {
+                        $this.data('slick', container.not('.slick-initialized').slick(config));
+                    }
 
                     // add slick-initialized for non-slick sliders, otherwise the will stay invisible
                 } else {
@@ -25,6 +30,10 @@
     });
 
     $(document).on('shown.bs.modal', '.modal', function() {
+        SLICK_BUNDLE.init();
+    });
+
+    $(document).on('shown.bs.collapse', '.collapse', function() {
         SLICK_BUNDLE.init();
     });
 
