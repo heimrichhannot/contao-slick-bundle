@@ -10,11 +10,21 @@
                 // initialize slick, if more than one slide
                 if (total > 1) {
                     var config = container.data('slickConfig');
+                    var initCallback = container.data('slickInitCallback');
+                    var afterInitCallback = container.data('slickAfterInitCallback');
 
                     // don't init sliders if inside a hidden collapse -> done in shown.bs.collapse event
                     if ($this.closest('.collapse').length <= 0 || $this.closest('.collapse').hasClass('show'))
                     {
-                        $this.data('slick', container.not('.slick-initialized').slick(config));
+                        if(typeof initCallback !== 'undefined'){
+                            window.SLICK_BUNDLE.executeFunctionByName(initCallback, window, [container]);
+                        }
+
+                        var slick = $this.data('slick', container.not('.slick-initialized').slick(config));
+
+                        if(typeof afterInitCallback !== 'undefined'){
+                            window.SLICK_BUNDLE.executeFunctionByName(afterInitCallback, window, [slick, container]);
+                        }
                     }
 
                     // add slick-initialized for non-slick sliders, otherwise the will stay invisible
@@ -23,7 +33,22 @@
                 }
             });
         },
+        executeFunctionByName : function(functionName, context, args) {
+            var namespaces = functionName.split(".");
+            var func = namespaces.pop();
+            for(var i = 0; i < namespaces.length; i++) {
+                context = context[namespaces[i]];
+            }
+
+            if(typeof context[func] !== 'function'){
+                console.log(func + ' within '+ window + ' context does not exist.');
+                return;
+            }
+
+            return context[func].apply(context, args);
+        }
     };
+
 
     $(document).ready(function() {
         SLICK_BUNDLE.init();

@@ -21,6 +21,14 @@ class SlickConfig
 
         $attributes = ' data-slick-config="'.htmlspecialchars(json_encode($arrData['config']), ENT_QUOTES, Config::get('characterSet')).'"';
 
+        if('' !== $objConfig->initCallback){
+            $attributes .= ' data-slick-init-callback="' . htmlspecialchars($objConfig->initCallback, ENT_QUOTES, Config::get('characterSet')) . '"';
+        }
+
+        if('' !== $objConfig->afterInitCallback){
+            $attributes .= ' data-slick-after-init-callback="' . htmlspecialchars($objConfig->afterInitCallback, ENT_QUOTES, Config::get('characterSet')) . '"';
+        }
+
         return $attributes;
     }
 

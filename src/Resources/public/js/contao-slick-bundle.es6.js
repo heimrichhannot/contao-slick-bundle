@@ -25,11 +25,21 @@ require('../scss/contao-slick-bundle.scss');
                 // initialize slick, if more than one slide
                 if (total > 1) {
                     let config = container.data('slickConfig');
+                    let initCallback = container.data('slickInitCallback');
+                    let afterInitCallback = container.data('slickAfterInitCallback');
 
                     // don't init sliders if inside a hidden collapse -> done in shown.bs.collapse event
                     if ($this.closest('.collapse').length <= 0 || $this.closest('.collapse').hasClass('show'))
                     {
-                        $this.data('slick', container.not('.slick-initialized').slick(config));
+                        if(typeof initCallback !== 'undefined'){
+                            slickBundle.executeFunctionByName(initCallback, window, [container]);
+                        }
+
+                        let slick = $this.data('slick', container.not('.slick-initialized').slick(config));
+
+                        if(typeof afterInitCallback !== 'undefined'){
+                            slickBundle.executeFunctionByName(afterInitCallback, window, [slick, container]);
+                        }
                     }
 
                     // add slick-initialized for non-slick sliders, otherwise the will stay invisible
@@ -37,6 +47,20 @@ require('../scss/contao-slick-bundle.scss');
                     container.addClass('slick-initialized');
                 }
             });
+        },
+        executeFunctionByName : function(functionName, context, args) {
+            let namespaces = functionName.split(".");
+            let func = namespaces.pop();
+            for(let i = 0; i < namespaces.length; i++) {
+                context = context[namespaces[i]];
+            }
+
+            if(typeof context[func] !== 'function'){
+                console.log(func + ' within '+ window + ' context does not exist.');
+                return;
+            }
+
+            return context[func].apply(context, args);
         }
     };
 
