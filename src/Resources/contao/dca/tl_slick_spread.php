@@ -8,6 +8,7 @@
  * @author  Rico Kaltofen <r.kaltofen@heimrich-hannot.de>
  * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
  */
+\Controller::loadDataContainer('tl_content');
 
 // reusable palettes extension for tl_news, tl_content, tl_module etc
 $GLOBALS['TL_DCA']['tl_slick_spread'] = [
@@ -16,7 +17,7 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
         SLICK_PALETTE_DEFAULT      => '{slick_legend},addSlick;',
         SLICK_PALETTE_PRESETCONFIG => '{slick_config},slickConfig;',
         SLICK_PALETTE_GALLERY      => '{slick_gallery},addGallery;',
-        SLICK_PALETTE_CONTENT      => '{type_legend},type;{slick_config},slickConfig;{source_legend},multiSRC,sortBy,useHomeDir;{image_legend},size,fullsize,numberOfItems;{template_legend:hide},slickgalleryTpl,customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop',
+        SLICK_PALETTE_CONTENT      => '{type_legend},type,headline;{slick_config},slickConfig;{source_legend},multiSRC,sortBy,useHomeDir;{image_legend},size,fullsize,numberOfItems;{template_legend:hide},slickgalleryTpl,customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop',
     ],
     'subpalettes' => [
         'addSlick'        => '	slick_accessibility,
