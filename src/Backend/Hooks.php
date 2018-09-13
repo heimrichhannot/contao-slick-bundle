@@ -72,7 +72,7 @@ class Hooks extends \Controller
         
         if(isset($dc['config']['ctable']) && is_array($dc['config']['ctable']) && in_array('tl_content', $dc['config']['ctable']))
         {
-            Controller::loadDataContainer('tl_content');
+            \Controller::loadDataContainer('tl_content');
         }
 
         foreach ($GLOBALS['TL_SLICK']['SUPPORTED'][$strName] as $strPalette => $replace) {
