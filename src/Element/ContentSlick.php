@@ -8,10 +8,11 @@
 
 namespace HeimrichHannot\SlickBundle\Element;
 
+use Contao\ContentGallery;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
 
-class ContentSlick extends \ContentGallery
+class ContentSlick extends ContentGallery
 {
     /**
      * Template.

@@ -8,9 +8,11 @@
 
 namespace HeimrichHannot\SlickBundle\Element;
 
+use Contao\BackendTemplate;
+use Contao\ContentElement;
 use Contao\System;
 
-class ContentSlickContentStop extends \ContentElement
+class ContentSlickContentStop extends ContentElement
 {
     /**
      * Template.
@@ -26,7 +28,7 @@ class ContentSlickContentStop extends \ContentElement
     {
         if (System::getContainer()->get('huh.utils.container')->isBackend()) {
             $this->strTemplate = 'be_wildcard';
-            $this->Template = new \BackendTemplate($this->strTemplate);
+            $this->Template = new BackendTemplate($this->strTemplate);
         }
     }
 }

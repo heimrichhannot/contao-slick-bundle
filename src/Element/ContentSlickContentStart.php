@@ -8,9 +8,11 @@
 
 namespace HeimrichHannot\SlickBundle\Element;
 
+use Contao\BackendTemplate;
+use Contao\ContentElement;
 use Contao\System;
 
-class ContentSlickContentStart extends \ContentElement
+class ContentSlickContentStart extends ContentElement
 {
     /**
      * Template.
@@ -23,7 +25,7 @@ class ContentSlickContentStart extends \ContentElement
     {
         if (System::getContainer()->get('huh.utils.container')->isBackend()) {
             $this->strTemplate = 'be_wildcard';
-            $this->Template = new \BackendTemplate($this->strTemplate);
+            $this->Template = new BackendTemplate($this->strTemplate);
             $this->Template->title = $this->headline;
         }
 
@@ -40,7 +42,6 @@ class ContentSlickContentStart extends \ContentElement
         if (null === $objConfig) {
             return '';
         }
-        $slickConfig = $container->get('huh.slick.config');
 
         $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
         $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);

@@ -8,9 +8,12 @@
 
 namespace HeimrichHannot\SlickBundle\Element;
 
+use Contao\BackendTemplate;
+use Contao\ContentElement;
+use Contao\ContentModel;
 use Contao\System;
 
-class ContentSlickNavStart extends \ContentElement
+class ContentSlickNavStart extends ContentElement
 {
     /**
      * Template.
@@ -23,7 +26,7 @@ class ContentSlickNavStart extends \ContentElement
     {
         if (System::getContainer()->get('huh.utils.container')->isBackend()) {
             $this->strTemplate = 'be_wildcard';
-            $this->Template = new \BackendTemplate($this->strTemplate);
+            $this->Template = new BackendTemplate($this->strTemplate);
             $this->Template->title = $this->headline;
         }
 
@@ -44,7 +47,7 @@ class ContentSlickNavStart extends \ContentElement
             return '';
         }
 
-        if (null === ($objSlider = \ContentModel::findByPk($this->slickContentSlider))) {
+        if (null === ($objSlider = ContentModel::findByPk($this->slickContentSlider))) {
             return '';
         }
 

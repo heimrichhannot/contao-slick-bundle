@@ -8,9 +8,11 @@
 
 namespace HeimrichHannot\SlickBundle\Element;
 
+use Contao\BackendTemplate;
+use Contao\ContentElement;
 use Contao\System;
 
-class ContentSlickSlideStart extends \ContentElement
+class ContentSlickSlideStart extends ContentElement
 {
     /**
      * Template.
@@ -26,7 +28,7 @@ class ContentSlickSlideStart extends \ContentElement
     {
         if (System::getContainer()->get('huh.utils.container')->isBackend()) {
             $this->strTemplate = 'be_wildcard';
-            $this->Template = new \BackendTemplate($this->strTemplate);
+            $this->Template = new BackendTemplate($this->strTemplate);
             $this->Template->title = $this->headline;
         }
     }

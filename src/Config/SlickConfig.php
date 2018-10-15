@@ -9,6 +9,7 @@
 namespace HeimrichHannot\SlickBundle\Config;
 
 use Contao\Config;
+use Contao\Controller;
 use Contao\StringUtil;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
@@ -34,7 +35,7 @@ class SlickConfig
 
     public function createConfig($objConfig)
     {
-        \Controller::loadDataContainer('tl_slick_spread');
+        Controller::loadDataContainer('tl_slick_spread');
 
         $arrConfig = [];
         $arrObjects = [];
