@@ -7,3 +7,5 @@ huh:
               js:
                 - slick
                 - contao-slick-bundle
+              css:
+                - slick
