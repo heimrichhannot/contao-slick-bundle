@@ -8,10 +8,12 @@
 
 namespace HeimrichHannot\SlickBundle\Backend;
 
+use Contao\Controller;
+use Contao\StringUtil;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
 
-class Hooks extends \Controller
+class Hooks extends Controller
 {
     private static $strSpreadDca = 'tl_slick_spread';
 
@@ -54,7 +56,7 @@ class Hooks extends \Controller
      */
     public function loadDataContainerHook($strName)
     {
-        \Controller::loadDataContainer(static::$strSpreadDca);
+        Controller::loadDataContainer(static::$strSpreadDca);
 
         if (!is_array($GLOBALS['TL_SLICK']['SUPPORTED']) || !in_array($strName, array_keys($GLOBALS['TL_SLICK']['SUPPORTED']), true)) {
             return false;
@@ -149,14 +151,14 @@ class Hooks extends \Controller
 
     protected static function getPaletteFields($strPalette, $dc, $type = 'palettes')
     {
-        $boxes = trimsplit(';', $GLOBALS['TL_DCA'][static::$strSpreadDca][$type][$strPalette]);
+        $boxes = StringUtil::trimsplit(';', $GLOBALS['TL_DCA'][static::$strSpreadDca][$type][$strPalette]);
 
         $arrFields = [];
 
         if (!empty($boxes)) {
             foreach ($boxes as $k => $v) {
                 $eCount = 1;
-                $boxes[$k] = trimsplit(',', $v);
+                $boxes[$k] = StringUtil::trimsplit(',', $v);
 
                 foreach ($boxes[$k] as $kk => $vv) {
                     if (preg_match('/^\[.*\]$/', $vv)) {
