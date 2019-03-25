@@ -1,29 +1,51 @@
 <?php
-
-/*
- * Copyright (c) 2018 Heimrich & Hannot GmbH
+/**
+ * Contao Open Source CMS
  *
- * @license LGPL-3.0-or-later
+ * Copyright (c) 2019 Heimrich & Hannot GmbH
+ *
+ * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
+ * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
  */
 
-namespace HeimrichHannot\SlickBundle\Backend;
+
+namespace HeimrichHannot\SlickBundle\EventListener;
+
 
 use Contao\Controller;
+use Contao\FrontendTemplate;
+use Contao\ModuleNews;
+use Contao\NewsArchiveModel;
 use Contao\StringUtil;
-use Contao\System;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Hooks extends Controller
+class HookListener
 {
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
     private static $strSpreadDca = 'tl_slick_spread';
 
-    public function parseArticlesHook(&$objTemplate, $arrArticle, $objModule)
+    public function __construct(ContainerInterface $container)
     {
-        if (!$arrArticle['addGallery'] || !$objModule->useSlickGallery) {
+        $this->container = $container;
+    }
+
+    /**
+     * @param FrontendTemplate $template
+     * @param array $row
+     * @param ModuleNews $module
+     */
+    public function onParseArticles(&$template, $row, $module)
+    {
+        if (!$row['addGallery'] || !$module->useSlickGallery) {
             return;
         }
 
-        $objArchive = \NewsArchiveModel::findByPk($arrArticle['pid']);
+        $objArchive = NewsArchiveModel::findByPk($row['pid']);
 
         if (null === $objArchive) {
             return;
@@ -33,18 +55,18 @@ class Hooks extends Controller
             return;
         }
 
-        $objConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($objArchive->slickConfig);
+        $objConfig = $this->container->get('huh.slick.model.config')->findByPk($objArchive->slickConfig);
 
         if (null === $objConfig) {
             return;
         }
 
         // set size from module
-        $arrArticle['slickSize'] = $objModule->imgSize;
+        $row['slickSize'] = $module->imgSize;
 
-        $objGallery = new Slick(System::getContainer()->get('huh.slick.config')->createSettings($arrArticle, $objConfig));
+        $objGallery = new Slick($this->container->get('huh.slick.config')->createSettings($row, $objConfig));
 
-        $objTemplate->gallery = $objGallery->parse();
+        $template->gallery = $objGallery->parse();
     }
 
     /**
@@ -54,7 +76,7 @@ class Hooks extends Controller
      *
      * @return bool false if Datacontainer not supported
      */
-    public function loadDataContainerHook($strName)
+    public function onLoadDataContainer($strName)
     {
         Controller::loadDataContainer(static::$strSpreadDca);
 
@@ -71,10 +93,10 @@ class Hooks extends Controller
         if (null === $dc) {
             return;
         }
-        
+
         if(isset($dc['config']['ctable']) && is_array($dc['config']['ctable']) && in_array('tl_content', $dc['config']['ctable']))
         {
-            \Controller::loadDataContainer('tl_content');
+            Controller::loadDataContainer('tl_content');
         }
 
         foreach ($GLOBALS['TL_SLICK']['SUPPORTED'][$strName] as $strPalette => $replace) {
@@ -126,7 +148,7 @@ class Hooks extends Controller
                 $dc['palettes']['__selector__'] = array_merge(is_array($dc['palettes']['__selector__']) ? $dc['palettes']['__selector__'] : [], $arrSelectors);
 
                 foreach ($arrSelectors as $key) {
-                    $arrFields = array_merge($arrFields, static::getPaletteFields($key, $dc, 'subpalettes'));
+                    $arrFields = array_merge($arrFields, $this->getPaletteFields($key, $dc, 'subpalettes'));
                 }
 
                 $dc['subpalettes'] = array_merge(is_array($dc['subpalettes']) ? $dc['subpalettes'] : [], $GLOBALS['TL_DCA'][static::$strSpreadDca]['subpalettes']);
@@ -140,8 +162,8 @@ class Hooks extends Controller
             $dc['fields'] = array_merge($arrFields, (is_array($dc['fields']) ? $dc['fields'] : []));
         }
 
-        \System::loadLanguageFile(static::$strSpreadDca);
-        \System::loadLanguageFile($strName);
+        Controller::loadLanguageFile(static::$strSpreadDca);
+        Controller::loadLanguageFile($strName);
 
         // add language to TL_LANG palette
         if (is_array($GLOBALS['TL_LANG'][static::$strSpreadDca])) {
@@ -149,7 +171,7 @@ class Hooks extends Controller
         }
     }
 
-    protected static function getPaletteFields($strPalette, $dc, $type = 'palettes')
+    protected function getPaletteFields($strPalette, $dc, $type = 'palettes')
     {
         $boxes = StringUtil::trimsplit(';', $GLOBALS['TL_DCA'][static::$strSpreadDca][$type][$strPalette]);
 

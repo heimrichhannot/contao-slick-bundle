@@ -62,7 +62,7 @@ class SlickConfig
             }
 
             if ($arrData['eval']['multiple'] || 'multiColumnEditor' == $arrData['inputType']) {
-                $value = deserialize($value, true);
+                $value = StringUtil::deserialize($value, true);
             }
 
             if ($arrData['eval']['isJsObject']) {

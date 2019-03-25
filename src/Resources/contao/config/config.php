@@ -14,8 +14,8 @@ define('SLICK_PALETTE_CONTENT_SLIDER_END', 'slick-content-end');
 /**
  * Hooks
  */
-$GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'loadDataContainerHook'];
-$GLOBALS['TL_HOOKS']['parseArticles'][]     = ['HeimrichHannot\SlickBundle\Backend\Hooks', 'parseArticlesHook'];
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['huh.slick.event_listener.hook_listener', 'onLoadDataContainer'];
+$GLOBALS['TL_HOOKS']['parseArticles'][]     = ['huh.slick.event_listener.hook_listener', 'onParseArticles'];
 
 /**
  * Supported TL_DCA Entities, spreading efa palette to

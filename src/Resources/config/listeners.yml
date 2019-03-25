@@ -1,0 +1,7 @@
+services:
+  _defaults:
+    public: true
+    autowire: true
+
+  huh.slick.event_listener.hook_listener:
+    class: HeimrichHannot\SlickBundle\EventListener\HookListener
