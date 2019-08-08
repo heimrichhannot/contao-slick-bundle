@@ -87,7 +87,7 @@ $GLOBALS['TL_WRAPPERS']['separator'][] = 'slick-nav-separator';
  */
 $GLOBALS['TL_MODELS']['tl_slick_config'] = 'HeimrichHannot\SlickBundle\Model\SlickConfigModel';
 
-if (\Contao\System::getContainer()->get('huh.utils.container')->isFrontend()) {
+if (TL_MODE === 'FE') {
     $GLOBALS['TL_USER_CSS']['slick']                 = 'assets/slick/slick.css|static';
     $GLOBALS['TL_JAVASCRIPT']['slick']               = 'assets/slick/slick.min.js|static';
     $GLOBALS['TL_JAVASCRIPT']['contao-slick-bundle'] = 'bundles/heimrichhannotcontaoslick/js/contao-slick-bundle.min.js|static';
