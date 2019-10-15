@@ -11,6 +11,7 @@ namespace HeimrichHannot\SlickBundle\Element;
 use Contao\BackendTemplate;
 use Contao\ContentElement;
 use Contao\System;
+use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 
 class ContentSlickContentStart extends ContentElement
 {
@@ -34,6 +35,8 @@ class ContentSlickContentStart extends ContentElement
         if (!$this->slickConfig) {
             return '';
         }
+
+        System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
 
         $container = System::getContainer();
 

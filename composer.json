@@ -8,7 +8,7 @@
     "slick"
   ],
   "type": "contao-bundle",
-  "homepage": "https://github.com/heimrichhannot/contao-slick",
+  "homepage": "https://github.com/heimrichhannot/contao-slick-bundle",
   "license": "LGPL-3.0-or-later",
   "authors": [
     {

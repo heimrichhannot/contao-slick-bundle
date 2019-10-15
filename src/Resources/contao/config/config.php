@@ -50,8 +50,10 @@ array_insert($GLOBALS['BE_MOD']['system'], 1, [
 /**
  * Front end modules
  */
-$GLOBALS['FE_MOD']['news']['slick_newslist']    = 'HeimrichHannot\SlickBundle\ModuleSlickNewsList';
-$GLOBALS['FE_MOD']['events']['slick_eventlist'] = 'HeimrichHannot\SlickBundle\ModuleSlickEventList';
+$GLOBALS['FE_MOD']['news'][\HeimrichHannot\SlickBundle\ModuleSlickNewsList::TYPE]    =
+    \HeimrichHannot\SlickBundle\ModuleSlickNewsList::class;
+$GLOBALS['FE_MOD']['events'][\HeimrichHannot\SlickBundle\ModuleSlickEventList::TYPE] =
+    \HeimrichHannot\SlickBundle\ModuleSlickEventList::class;
 
 /**
  * Content elements
@@ -86,12 +88,6 @@ $GLOBALS['TL_WRAPPERS']['separator'][] = 'slick-nav-separator';
  * Models
  */
 $GLOBALS['TL_MODELS']['tl_slick_config'] = 'HeimrichHannot\SlickBundle\Model\SlickConfigModel';
-
-if (TL_MODE === 'FE') {
-    $GLOBALS['TL_USER_CSS']['slick']                 = 'assets/slick/slick.css|static';
-    $GLOBALS['TL_JAVASCRIPT']['slick']               = 'assets/slick/slick.min.js|static';
-    $GLOBALS['TL_JAVASCRIPT']['contao-slick-bundle'] = 'bundles/heimrichhannotcontaoslick/js/contao-slick-bundle.min.js|static';
-}
 
 /**
  * Modal module configuration

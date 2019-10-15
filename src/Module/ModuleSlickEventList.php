@@ -8,10 +8,17 @@
 
 namespace HeimrichHannot\SlickBundle;
 
+use Contao\BackendTemplate;
+use Contao\ModuleEventlist;
+use Contao\System;
+use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 use Patchwork\Utf8;
 
-class ModuleSlickEventList extends \ModuleEventlist
+class ModuleSlickEventList extends ModuleEventlist
 {
+    const TYPE = 'slick_eventlist';
+
     /**
      * Template.
      *
@@ -19,16 +26,22 @@ class ModuleSlickEventList extends \ModuleEventlist
      */
     protected $strTemplate = 'mod_eventlist';
 
+    public function __construct($objModule, $strColumn = 'main')
+    {
+        parent::__construct($objModule, $strColumn);
+    }
+
+
     public function generate()
     {
         if (TL_MODE == 'BE') {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['eventlist'][0]).' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
+            $objTemplate->href = 'contao?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
 
             return $objTemplate->parse();
         }
@@ -38,6 +51,7 @@ class ModuleSlickEventList extends \ModuleEventlist
         if ($this->slickConfig > 0 && null !== ($objConfig = SlickConfigModel::findByPk($this->slickConfig))) {
             $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
             $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
+            System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
         }
 
         return $this->Template->parse();

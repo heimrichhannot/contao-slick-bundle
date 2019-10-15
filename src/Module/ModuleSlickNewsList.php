@@ -8,11 +8,16 @@
 
 namespace HeimrichHannot\SlickBundle;
 
+use Contao\BackendTemplate;
+use Contao\ModuleNewsList;
 use Contao\System;
+use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use Patchwork\Utf8;
 
-class ModuleSlickNewsList extends \ModuleNewsList
+class ModuleSlickNewsList extends ModuleNewsList
 {
+    const TYPE = 'slick_newslist';
+
     /**
      * Template.
      *
@@ -23,13 +28,13 @@ class ModuleSlickNewsList extends \ModuleNewsList
     public function generate()
     {
         if (System::getContainer()->get('huh.utils.container')->isBackend()) {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+            $objTemplate = new BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['newslist'][0]).' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
+            $objTemplate->href = 'contao?do=themes&amp;table=tl_module&amp;act=edit&amp;id='.$this->id;
 
             return $objTemplate->parse();
         }
@@ -39,6 +44,8 @@ class ModuleSlickNewsList extends \ModuleNewsList
         if ($this->slickConfig > 0 && null !== ($objConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($this->slickConfig))) {
             $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
             $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
+
+            System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
         }
 
         return $this->Template->parse();

@@ -1,7 +1,24 @@
 {
   "name": "contao-slick-bundle",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "dependencies": {
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "jquery": "^3.4.1"
+  },
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.24",
+    "node-sass": "^4.12.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "autoprefixer": "^9.1.5"
+  },
+  "scripts": {
+    "build-dev": "yarn encore dev",
+    "build-production": "yarn encore production"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
   }
 }

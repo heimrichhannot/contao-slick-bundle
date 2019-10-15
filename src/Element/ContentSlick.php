@@ -10,6 +10,7 @@ namespace HeimrichHannot\SlickBundle\Element;
 
 use Contao\ContentGallery;
 use Contao\System;
+use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
 
 class ContentSlick extends ContentGallery
@@ -38,13 +39,14 @@ class ContentSlick extends ContentGallery
         if (!$this->slickConfig) {
             return '';
         }
-        $container = System::getContainer();
 
-        $objConfig = $container->get('huh.slick.model.config')->findByPk($this->slickConfig);
+        $objConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($this->slickConfig);
 
         if (null === $objConfig) {
             return '';
         }
+
+        System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
 
         // Map content fields to slick fields
         $this->arrData['slickMultiSRC'] = $this->arrData['multiSRC'];

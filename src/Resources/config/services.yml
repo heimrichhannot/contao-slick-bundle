@@ -5,3 +5,6 @@ services:
   huh.slick.config:
     class: HeimrichHannot\SlickBundle\Config\SlickConfig
     public: true
+
+  HeimrichHannot\SlickBundle\Asset\FrontendAsset:
+    autowire: true

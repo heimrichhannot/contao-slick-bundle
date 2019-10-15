@@ -1,0 +1,12 @@
+{
+  "entrypoints": {
+    "contao-slick-bundle": {
+      "css": [
+        "/bundles/heimrichhannotcontaoslick/assets/contao-slick-bundle.css"
+      ],
+      "js": [
+        "/bundles/heimrichhannotcontaoslick/assets/contao-slick-bundle.js"
+      ]
+    }
+  }
+}

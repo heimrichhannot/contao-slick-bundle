@@ -30,5 +30,6 @@ class ContentSlickContentStop extends ContentElement
             $this->strTemplate = 'be_wildcard';
             $this->Template = new BackendTemplate($this->strTemplate);
         }
+
     }
 }
