@@ -1,8 +1,8 @@
 huh:
     encore:
         entries:
-            - { name: contao-slick-bundle, file: "vendor/heimrichhannot/contao-slick-bundle/src/Resources/public/js/contao-slick-bundle.es6.js", requiresCss: true }
-            - { name: contao-slick-bundle-theme, file: "vendor/heimrichhannot/contao-slick-bundle/src/Resources/public/js/contao-slick-bundle-theme.es6.js", requiresCss: true }
+            - { name: contao-slick-bundle, file: "vendor/heimrichhannot/contao-slick-bundle/src/Resources/assets/js/contao-slick-bundle.es6.js", requiresCss: true }
+            - { name: contao-slick-bundle-theme, file: "vendor/heimrichhannot/contao-slick-bundle/src/Resources/assets/js/contao-slick-bundle-theme.es6.js", requiresCss: true }
         legacy:
               js:
                 - slick
