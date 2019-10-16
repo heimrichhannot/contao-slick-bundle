@@ -1,8 +1,11 @@
 # Changelog
 
 
-## [1.1.0] - 2019-10-15
+## [1.1.1] - 2019-10-16
+- fixed svg image files not working with content elements (#15)
 
+
+## [1.1.0] - 2019-10-16
 - added support for dynamically adding entrypoints of contao encore bundle 1.3
 - legacy contao assets are only added to global array when needed
 - refactored legacy asset generation to encore (internal process)

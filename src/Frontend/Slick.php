@@ -8,6 +8,8 @@
 
 namespace HeimrichHannot\SlickBundle\Frontend;
 
+use Contao\Controller;
+use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\StringUtil;
@@ -265,7 +267,7 @@ class Slick extends Frontend
             $objImage = new \stdClass();
             $images[$i]['size'] = $this->slickSize;
             $images[$i]['fullsize'] = $this->slickFullsize;
-            \Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
+            Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
             $body[$i] = $objImage;
         }
 
@@ -316,9 +318,9 @@ class Slick extends Frontend
     {
         global $objPage;
 
-        $file = new \File($model->path);
+        $file = new File($model->path);
 
-        if (!$file->isGdImage) {
+        if (!$file->isImage) {
             return false;
         }
 

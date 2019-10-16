@@ -60,7 +60,8 @@ $GLOBALS['FE_MOD']['events'][\HeimrichHannot\SlickBundle\ModuleSlickEventList::T
  */
 array_insert($GLOBALS['TL_CTE'], 3, [
     'slick' => [
-        'slick-slider'          => 'HeimrichHannot\SlickBundle\Element\ContentSlick',
+        \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::TYPE =>
+            \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::class,
         'slick-content-start'   => 'HeimrichHannot\SlickBundle\Element\ContentSlickContentStart',
         'slick-slide-separator' => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideSeparator',
 //        'slick-slide-start'     => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideStart',

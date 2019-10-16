@@ -13,8 +13,10 @@ use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
 
-class ContentSlick extends ContentGallery
+class SlickImageSliderElement extends ContentGallery
 {
+    const TYPE = 'slick-slider';
+
     /**
      * Template.
      *
