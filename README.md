@@ -34,3 +34,10 @@ If you want to use the default theme comes with the slick carousel, you need to 
 ```php
 $GLOBALS['TL_USER_CSS']['slick-theme'] = 'assets/slick/slick/slick-theme.css';
 ```
+
+### Hooks
+
+Hook                  | Description
+--------------------- | -----------
+compileSlickNewsList  | Modify slick news frontend module output.
+compileSlickEventList | Modify slick event frontend module output.

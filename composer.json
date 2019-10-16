@@ -1,6 +1,6 @@
 {
   "name": "heimrichhannot/contao-slick-bundle",
-  "description": "Slick, a content slider for contao.",
+  "description": "A content slider/carousel for contao based on kenwheelers slick carousel.",
   "keywords": [
     "contao",
     "carousel",
