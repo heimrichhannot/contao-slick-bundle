@@ -18,6 +18,7 @@ use Contao\ModuleNews;
 use Contao\NewsArchiveModel;
 use Contao\StringUtil;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class HookListener
@@ -55,7 +56,7 @@ class HookListener
             return;
         }
 
-        $objConfig = $this->container->get('huh.slick.model.config')->findByPk($objArchive->slickConfig);
+        $objConfig = SlickConfigModel::findByPk($objArchive->slickConfig);
 
         if (null === $objConfig) {
             return;

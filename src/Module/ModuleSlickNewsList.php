@@ -12,6 +12,7 @@ use Contao\BackendTemplate;
 use Contao\ModuleNewsList;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 use Patchwork\Utf8;
 
 class ModuleSlickNewsList extends ModuleNewsList
@@ -41,7 +42,7 @@ class ModuleSlickNewsList extends ModuleNewsList
 
         parent::generate();
 
-        if ($this->slickConfig > 0 && null !== ($objConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($this->slickConfig))) {
+        if ($this->slickConfig > 0 && null !== ($objConfig = SlickConfigModel::findByPk($this->slickConfig))) {
             $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
             $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
 

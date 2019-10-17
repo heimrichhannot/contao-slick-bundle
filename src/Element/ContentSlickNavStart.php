@@ -13,6 +13,7 @@ use Contao\ContentElement;
 use Contao\ContentModel;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class ContentSlickNavStart extends ContentElement
 {
@@ -39,7 +40,7 @@ class ContentSlickNavStart extends ContentElement
         System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
         $container = System::getContainer();
 
-        $objConfig = $container->get('huh.slick.model.config')->findByPk($this->slickConfig);
+        $objConfig = SlickConfigModel::findByPk($this->slickConfig);
 
         if (null === $objConfig) {
             return '';

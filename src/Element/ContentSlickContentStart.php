@@ -12,6 +12,7 @@ use Contao\BackendTemplate;
 use Contao\ContentElement;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class ContentSlickContentStart extends ContentElement
 {
@@ -36,11 +37,9 @@ class ContentSlickContentStart extends ContentElement
             return '';
         }
 
-        System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
-
         $container = System::getContainer();
 
-        $objConfig = $container->get('huh.slick.model.config')->findByPk($this->slickConfig);
+        $objConfig = SlickConfigModel::findByPk($this->slickConfig);
 
         if (null === $objConfig) {
             return '';
@@ -48,6 +47,8 @@ class ContentSlickContentStart extends ContentElement
 
         $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($objConfig);
         $this->Template->attributes .= System::getContainer()->get('huh.slick.config')->getAttributesFromModel($objConfig);
+        
+        System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
 
         return $this->Template->parse();
     }

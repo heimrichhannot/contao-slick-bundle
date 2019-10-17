@@ -82,7 +82,7 @@ class SlickConfig
                         continue;
                     }
 
-                    $objResponsiveConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($config['slick_settings']);
+                    $objResponsiveConfig = SlickConfigModel::findByPk($config['slick_settings']);
 
                     if (null === $objResponsiveConfig) {
                         continue;
@@ -113,7 +113,7 @@ class SlickConfig
 
             if ('slick_asNavFor' == $key) {
                 if ($value > 0) {
-                    $objTargetConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($value);
+                    $objTargetConfig = SlickConfigModel::findByPk($value);
 
                     if (null !== $objTargetConfig) {
                         $value = $this->getSlickContainerSelectorFromModel($objTargetConfig);

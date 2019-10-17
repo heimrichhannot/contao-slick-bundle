@@ -42,7 +42,7 @@ class SlickImageSliderElement extends ContentGallery
             return '';
         }
 
-        $objConfig = System::getContainer()->get('huh.slick.model.config')->findByPk($this->slickConfig);
+        $objConfig = SlickConfigModel::findByPk($this->slickConfig);
 
         if (null === $objConfig) {
             return '';

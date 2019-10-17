@@ -15,6 +15,7 @@ define('SLICK_PALETTE_CONTENT_SLIDER_END', 'slick-content-end');
  * Hooks
  */
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['huh.slick.event_listener.hook_listener', 'onLoadDataContainer'];
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = [\HeimrichHannot\SlickBundle\EventListener\LoadDataContainerListener::class, 'onLoadDataContainer'];
 $GLOBALS['TL_HOOKS']['parseArticles'][]     = ['huh.slick.event_listener.hook_listener', 'onParseArticles'];
 
 /**

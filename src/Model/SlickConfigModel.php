@@ -8,7 +8,9 @@
 
 namespace HeimrichHannot\SlickBundle\Model;
 
-class SlickConfigModel extends \Model
+use Contao\Model;
+
+class SlickConfigModel extends Model
 {
     protected static $strTable = 'tl_slick_config';
 }

@@ -5,10 +5,11 @@ A content slider/carousel for contao based on [kenwheelers slick carousel](http:
 ## Features
 
 - global carousel configurations
-- supports newslists
-- supports content elements
+- frontend modules for news and events
+- content elements for images galleries and other content elements
 - responsive
 - [Encore Bundle](https://github.com/heimrichhannot/contao-encore-bundle) support
+- [List Bundle](https://github.com/heimrichhannot/contao-list-bundle) support
 
 ## Usage
 
@@ -24,8 +25,8 @@ The bundle has no default styling for slick slider. If your want to use the slic
 
 ### Setup
 
-1. Create an slick configuration under System -> Slick configuration. Please consider the slick-carousel documentation for informations about the different config options.
-2. Create an slick frontend module and select former created config. You also need to setup the news or event config for this module.
+1. Create an slick configuration under System -> Slick configuration. Please consider the slick-carousel documentation for information about the different config options.
+2. Select the created config in a slick frontend module, a slick content element or in your list config (Misc -> Add slick).
 
 ### Slick theme
 

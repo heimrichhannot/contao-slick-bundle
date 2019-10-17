@@ -40,6 +40,10 @@
     "php-coveralls/php-coveralls": "^2.0",
     "symfony/phpunit-bridge": "^3.2"
   },
+  "replace": {
+    "heimrichhannot/contao-slick": "*",
+    "heimrichhannot/contao-slick-list-bundle": "*"
+  },
   "autoload": {
     "psr-4": {
       "HeimrichHannot\\SlickBundle\\": "src/"

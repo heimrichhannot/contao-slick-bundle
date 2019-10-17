@@ -10,6 +10,7 @@
  */
 
 // reusable palettes extension for tl_news, tl_content, tl_module etc
+
 $GLOBALS['TL_DCA']['tl_slick_spread'] = [
     'palettes'    => [
         '__selector__'             => ['addSlick', 'addGallery', 'slick_pausePlay'],
@@ -796,7 +797,7 @@ class tl_slick_spread extends Backend
     {
         $arrOptions = [];
 
-        $objConfig = System::getContainer()->get('huh.slick.model.config')->findBy(['id != ?'], $dc->activeRecord->id);
+        $objConfig = \HeimrichHannot\SlickBundle\Model\SlickConfigModel::findBy(['id != ?'], $dc->activeRecord->id);
 
         if ($objConfig === null) {
             return $arrOptions;
