@@ -12,6 +12,7 @@ use Contao\ContentGallery;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class SlickImageSliderElement extends ContentGallery
 {
