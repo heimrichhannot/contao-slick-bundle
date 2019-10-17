@@ -3,9 +3,12 @@
 ## [1.2.1] - 2019-10-17
 - fixed ClassNotFoundException
 
+
 ## [1.2.0] - 2019-10-17
 - added list bundle support (integrated contao-slick-list-bundle)
 - replace contao-slick and contao-slick-list-bundle via composer.json
+- replaces `huh.slick.model.config` service calls with direct model calls
+- deprecated `huh.slick.model.config`
 
 
 ## [1.1.1] - 2019-10-16
