@@ -11,3 +11,4 @@ services:
 
   HeimrichHannot\SlickBundle\Asset\FrontendAsset:
     autowire: true
+    public: true
