@@ -16,6 +16,7 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 use Contao\ManagerPlugin\Config\ConfigPluginInterface;
 use Contao\ManagerPlugin\Config\ContainerBuilder;
 use Contao\ManagerPlugin\Config\ExtensionPluginInterface;
+use Contao\NewsBundle\ContaoNewsBundle;
 use HeimrichHannot\SlickBundle\HeimrichHannotContaoSlickBundle;
 use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -27,11 +28,15 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface, ConfigP
      */
     public function getBundles(ParserInterface $parser)
     {
+        $loadAfter = [ContaoCoreBundle::class];
+        if (class_exists('Contao\CalendarBundle\ContaoCalendarBundle')) {
+            $loadAfter[] = ContaoCalendarBundle::class;
+        }
+        if (class_exists('Contao\NewsBundle\ContaoNewsBundle')) {
+            $loadAfter[] = ContaoNewsBundle::class;
+        }
         return [
-            BundleConfig::create(HeimrichHannotContaoSlickBundle::class)->setLoadAfter([
-                ContaoCoreBundle::class,
-                ContaoCalendarBundle::class
-            ]),
+            BundleConfig::create(HeimrichHannotContaoSlickBundle::class)->setLoadAfter($loadAfter),
         ];
     }
 
@@ -58,5 +63,6 @@ class Plugin implements BundlePluginInterface, ExtensionPluginInterface, ConfigP
     {
         $loader->load('@HeimrichHannotContaoSlickBundle/Resources/config/services.yml');
         $loader->load('@HeimrichHannotContaoSlickBundle/Resources/config/listeners.yml');
+        $loader->load('@HeimrichHannotContaoSlickBundle/Resources/config/datacontainers.yml');
     }
 }

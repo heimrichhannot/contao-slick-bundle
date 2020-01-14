@@ -15,8 +15,9 @@ define('SLICK_PALETTE_CONTENT_SLIDER_END', 'slick-content-end');
  * Hooks
  */
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['huh.slick.event_listener.hook_listener', 'onLoadDataContainer'];
-$GLOBALS['TL_HOOKS']['loadDataContainer'][] = [\HeimrichHannot\SlickBundle\EventListener\LoadDataContainerListener::class, 'onLoadDataContainer'];
 $GLOBALS['TL_HOOKS']['parseArticles'][]     = ['huh.slick.event_listener.hook_listener', 'onParseArticles'];
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = [\HeimrichHannot\SlickBundle\EventListener\LoadDataContainerListener::class, 'onLoadDataContainer'];
+$GLOBALS['TL_HOOKS']['initializeSystem'][] = [\HeimrichHannot\SlickBundle\EventListener\InitializeSystemListener::class, 'onInitializeSystem'];
 
 /**
  * Supported TL_DCA Entities, spreading efa palette to
@@ -50,11 +51,9 @@ array_insert($GLOBALS['BE_MOD']['system'], 1, [
 
 /**
  * Front end modules
+ *
+ * -> added from initializeSystem hook
  */
-$GLOBALS['FE_MOD']['news'][\HeimrichHannot\SlickBundle\ModuleSlickNewsList::TYPE]    =
-    \HeimrichHannot\SlickBundle\ModuleSlickNewsList::class;
-$GLOBALS['FE_MOD']['events'][\HeimrichHannot\SlickBundle\ModuleSlickEventList::TYPE] =
-    \HeimrichHannot\SlickBundle\ModuleSlickEventList::class;
 
 /**
  * Content elements

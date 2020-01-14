@@ -71,6 +71,8 @@ $GLOBALS['TL_LANG']['tl_slick_spread']['initCallback']           = ['init callba
 $GLOBALS['TL_LANG']['tl_slick_spread']['afterInitCallback']      = ['after init callback', 'Add a global accessible js function callback like MySlick.afterInitCallback that should be called after here slick object has been initialized. Standard: n/a'];
 $GLOBALS['TL_LANG']['tl_slick_spread']['cssClass']               = ['CSS class', 'Here you can enter CSS classes seperated by space that will be added to the slick parent container.'];
 $GLOBALS['TL_LANG']['tl_slick_spread']['slick_randomActive']     = ['Random active element', 'Select a random active element on load.'];
+$GLOBALS['TL_LANG']['tl_slick_spread']['slick_breakpoint']     = ['breakpoint', 'Enables settings sets at given screen width.'];
+$GLOBALS['TL_LANG']['tl_slick_spread']['slick_settings']     = ['configuration', 'Configuration that should be used from given breakpoint.'];
 
 /**
  * Legends

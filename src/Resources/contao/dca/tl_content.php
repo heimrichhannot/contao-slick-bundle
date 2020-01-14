@@ -31,41 +31,10 @@ $dc['fields']['slickContentSlider'] = [
     'label'            => &$GLOBALS['TL_LANG']['tl_content']['slickContentSlider'],
     'exclude'          => true,
     'inputType'        => 'select',
-    'options_callback' => ['tl_content_slick', 'getContentSliderCarousels'],
+    'options_callback' => [\HeimrichHannot\SlickBundle\DataContainer\ContentContainer::class, 'getContentSliderCarousels'],
     'eval'             => ['tl_class' => 'w50', 'mandatory' => true],
     'wizard'           => [
         ['tl_content', 'editAlias'],
     ],
     'sql'              => "varchar(64) NOT NULL default ''",
 ];
-
-class tl_content_slick extends \Backend
-{
-
-    public function getContentSliderCarousels(DataContainer $dc)
-    {
-        $arrOptions = [];
-
-        $objSlider = \ContentModel::findBy('type', 'slick-content-start');
-
-        if ($objSlider === null) {
-            return $arrOptions;
-        }
-
-        while ($objSlider->next()) {
-
-            $objArticle = \ArticleModel::findByPk($objSlider->pid);
-
-            if ($objArticle === null) {
-                continue;
-            }
-
-            $arrOptions[$objSlider->id] = sprintf($GLOBALS['TL_LANG']['tl_content']['contentSliderCarouselSelectOption'], $objArticle->title, $objArticle->id, $objSlider->id);
-
-        }
-
-
-        return $arrOptions;
-    }
-
-}

@@ -101,14 +101,3 @@ $GLOBALS['TL_DCA']['tl_slick_config'] = [
         ]
     ]
 ];
-
-class tl_slick_config extends Backend
-{
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->import('BackendUser', 'User');
-    }
-
-}

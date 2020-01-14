@@ -143,7 +143,7 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
             'label'     => &$GLOBALS['TL_LANG']['tl_slick_spread']['slickSize'],
             'exclude'   => true,
             'inputType' => 'imageSize',
-            'options'   => System::getContainer()->get('contao.image.image_sizes')->getAllOptions(),
+            'options_callback' => [\HeimrichHannot\SlickBundle\DataContainer\SlickSpreadContainer::class, 'onSlickSizeOptionsCallback'],
             'reference' => &$GLOBALS['TL_LANG']['MSC'],
             'eval'      => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50'],
             'sql'       => "varchar(64) NOT NULL default ''",

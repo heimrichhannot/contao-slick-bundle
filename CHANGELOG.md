@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.0] - 2020-01-14
+- made contao news and calendar bundle an optional dependency (#20, #21)
+- fix possible install error (#22)
+- added missing translations (#19)
+- some refactoring 
+
 ## [1.2.2] - 2019-10-25
 - fixed FrontentAsset service not public (#16)(#17) - thanks to fritzmg 
 

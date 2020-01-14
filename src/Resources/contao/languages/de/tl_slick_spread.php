@@ -86,6 +86,8 @@ $GLOBALS['TL_LANG']['tl_slick_spread']['initCallback']           = ['init callba
 $GLOBALS['TL_LANG']['tl_slick_spread']['afterInitCallback']      = ['after init callback', 'Geben sie eine global erreichbare Javascipt-Funktion an wie z.B. MySlick.afterInitCallback die nach der Inizialisierung des Slick Carousel aufgerufen werden soll. Standard: n/a'];
 $GLOBALS['TL_LANG']['tl_slick_spread']['cssClass']               = ['CSS-Klasse', 'Hier können Sie CSS-Klassen, durch Leerzeichen getrennt hinterlegen, die dem Slick-Karussell Elternelement hinzugefügt werden.'];
 $GLOBALS['TL_LANG']['tl_slick_spread']['slick_randomActive']     = ['Zufälliges aktives Element', 'Das aktive Element zufällig wählen.'];
+$GLOBALS['TL_LANG']['tl_slick_spread']['slick_breakpoint']     = ['breakpoint', 'Breakpoint, ab welchem die gesetzte Konfiguration genutzt werden soll.'];
+$GLOBALS['TL_LANG']['tl_slick_spread']['slick_settings']     = ['configuration', 'Konfiguration, welche ab dem gegebenen Breakpoint genutzt werden soll.'];
 
 /**
  * Legends
