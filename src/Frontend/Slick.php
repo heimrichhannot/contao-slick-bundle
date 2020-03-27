@@ -95,7 +95,7 @@ class Slick extends Frontend
 
     public static function createSettings(array $arrData = [], SlickConfigModel $objConfig)
     {
-        \Controller::loadDataContainer('tl_slick_spread');
+        Controller::loadDataContainer('tl_slick_spread');
         $objSettings = $objConfig;
         foreach ($arrData as $key => $value) {
             if (substr($key, 0, 5) != 'slick') {

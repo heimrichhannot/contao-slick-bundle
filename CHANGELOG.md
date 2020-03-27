@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.1] - 2020-03-27
+- updated readme
+- removed unused import
+- fixed a namespace
+
 ## [1.3.0] - 2020-01-14
 - made contao news and calendar bundle an optional dependency (#20, #21)
 - fix possible install error (#22)

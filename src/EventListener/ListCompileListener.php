@@ -2,7 +2,6 @@
 
 namespace HeimrichHannot\SlickBundle\EventListener;
 
-use Contao\System;
 use HeimrichHannot\ListBundle\Event\ListCompileEvent;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Config\SlickConfig;
