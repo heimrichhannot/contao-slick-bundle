@@ -2,7 +2,7 @@ var Encore = require('@symfony/webpack-encore');
 
 Encore
 .setOutputPath('src/Resources/public/assets/')
-.addEntry('contao-slick-bundle', './src/Resources/assets/js/contao-slick-bundle.es6.js')
+.addEntry('contao-slick-bundle', './src/Resources/assets/js/contao-slick-bundle.js')
 .setPublicPath('/bundles/heimrichhannotcontaoslick/assets')
 .setManifestKeyPrefix('bundles/heimrichhannotcontaoslick/assets')
 .disableSingleRuntimeChunk()

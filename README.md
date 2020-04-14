@@ -33,41 +33,9 @@ The bundle has no default styling for slick slider. If your want to use the slic
 If you want to use the default theme comes with the slick carousel, you need to add the slick theme css. If you use slick together with **encore bundle**, you just need to select the `contao-slick-bundle-theme` entry within layout or page setting. If you use the default contao asset managment, you need to add the `slick-theme.css` to the global asset array:
 
 ```php
-$GLOBALS['TL_USER_CSS']['slick-theme'] = 'bundles/heimrichhannotcontaoslick/assets/contao-slick-bundle-theme.css';
+$GLOBALS['TL_USER_CSS']['slick-theme'] = 'assets/slick/slick/slick-theme.css';
 ```
 
-### Add slick to a custom element
+## Ressources
 
-If you need to add slick to a custom element, you need to add the slick assets. The easiest way (and it also optional supports encore bundle) is to use the `FrontendAsset` service.
-
-```php
-use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
-
-class MyFrontendModuleController extends AbstractFrontendModuleController
-{
-    private $frontendAsset;
-
-    public function __construct(FrontendAsset $frontendAsset)
-    {
-        $this->frontendAsset = $frontendAsset;
-    }
-
-    protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
-    {
-        // Do something...
-
-        $this->frontendAsset->addFrontendAssets();
-        return $template->getResponse();
-    }
-}
-```
-
-### Hooks
-
-Hook                  | Description
---------------------- | -----------
-compileSlickNewsList  | Modify slick news frontend module output.
-compileSlickEventList | Modify slick event frontend module output.
+[Developer documentation](docs/developers.md)

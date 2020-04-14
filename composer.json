@@ -29,16 +29,6 @@
     "heimrichhannot/contao-utils-bundle": "^2.3",
     "heimrichhannot-contao-components/slick": "^1.8.1"
   },
-  "require-dev": {
-    "contao/test-case": "^1.1",
-    "contao/manager-plugin": "^2.0",
-    "friendsofphp/php-cs-fixer": "^2.2",
-    "phpunit/phpunit": ">=6.0 <6.5",
-    "php-http/guzzle6-adapter": "^1.1",
-    "php-http/message-factory": "^1.0.2",
-    "php-coveralls/php-coveralls": "^2.0",
-    "symfony/phpunit-bridge": "^3.2"
-  },
   "replace": {
     "heimrichhannot/contao-slick": "*",
     "heimrichhannot/contao-slick-list-bundle": "*"
@@ -57,16 +47,11 @@
       "src/Resources/contao/templates/"
     ]
   },
-  "autoload-dev": {
-    "psr-4": {
-      "HeimrichHannot\\SlickBundle\\Test\\": "tests/"
-    }
-  },
   "extra": {
     "contao-manager-plugin": "HeimrichHannot\\SlickBundle\\ContaoManager\\Plugin",
     "foxy": true
   },
-  "suggest": {
-    "heimrichhannot/contao-encore-bundle": "Provide webpack encore asset support."
+  "conflict": {
+    "heimrichhannot/contao-encore-bundle": "<1.5"
   }
 }

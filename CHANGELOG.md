@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0] - 2020-04-14
+- refactored js code to es6
+- added new events
+- removed unnecessary jquery code (jquery still needed to call core slick functions)
+- deprecated slickInitCallback and afterInitCallback
+- deprecated bootstrapper support in js code
+- updated encore bundle config
+- raised minimum encore bundle version to 1.5
+
 ## [1.3.1] - 2020-03-27
 - updated readme
 - removed unused import
