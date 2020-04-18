@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.4.1] - 2020-04-18
+- restored ie support through polyfills
+
 ## [1.4.0] - 2020-04-14
 - refactored js code to es6
 - added new events

@@ -1,5 +1,7 @@
 import 'jquery';
 import 'slick-carousel';
+import 'nodelist-foreach-polyfill';
+import 'custom-event-polyfill';
 import '../scss/contao-slick-bundle.scss';
 
 class SlickBundle
