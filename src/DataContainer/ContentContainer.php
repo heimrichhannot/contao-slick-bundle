@@ -12,7 +12,11 @@
 namespace HeimrichHannot\SlickBundle\DataContainer;
 
 
+use Contao\Controller;
 use Contao\DataContainer;
+use Contao\DC_Table;
+use HeimrichHannot\SlickBundle\Element\ContentSlickContentStart;
+use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ContentContainer
@@ -21,11 +25,15 @@ class ContentContainer
      * @var ContainerInterface
      */
     private $container;
+    /**
+     * @var ContainerUtil
+     */
+    private $containerUtil;
 
-    public function __construct(ContainerInterface $container
-    )
+    public function __construct(ContainerInterface $container, ContainerUtil $containerUtil)
     {
         $this->container = $container;
+        $this->containerUtil = $containerUtil;
     }
 
     /**
@@ -53,5 +61,34 @@ class ContentContainer
         }
 
         return $arrOptions;
+    }
+
+    /**
+     * @param $value
+     * @param DC_Table $context
+     * @param null $module
+     * @return mixed
+     */
+    public function onCustomTplLoad($value, $context, $module = null)
+    {
+        if (!$this->containerUtil->isBackend()) {
+            return $value;
+        }
+        if ($context->activeRecord->type === ContentSlickContentStart::TYPE) {
+            $GLOBALS['TL_DCA']['tl_content']['fields']['customTpl']['options_callback'] = [static::class, 'getCorrectedTemplates'];
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param DC_Table $dc
+     */
+    public function getCorrectedTemplates($dc): array
+    {
+        $templates = [];
+        $templates = array_merge($templates, Controller::getTemplateGroup('ce_' . $dc->activeRecord->type . '_', array(), 'ce_' . $dc->activeRecord->type));
+        $templates = array_merge($templates, Controller::getTemplateGroup(ContentSlickContentStart::TEMPLATE . '_', array(), 'ce_' . $dc->activeRecord->type));
+        return $templates;
     }
 }

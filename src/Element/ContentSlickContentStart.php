@@ -16,12 +16,15 @@ use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class ContentSlickContentStart extends ContentElement
 {
+    const TYPE = 'slick-content-start';
+    const TEMPLATE = 'ce_slick_content_start';
+
     /**
      * Template.
      *
      * @var string
      */
-    protected $strTemplate = 'ce_slick_content_start';
+    protected $strTemplate = ContentSlickContentStart::TEMPLATE;
 
     public function generate()
     {

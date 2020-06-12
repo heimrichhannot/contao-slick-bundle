@@ -11,7 +11,6 @@
 
 $dc = &$GLOBALS['TL_DCA']['tl_content'];
 
-
 /**
  * Palettes
  */
@@ -26,6 +25,9 @@ $dc['palettes']['slick-nav-stop']  = '{type_legend},type,headline;{template_lege
 
 $dc['palettes']['slick-slide-separator'] = '{type_legend},type,headline;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop';
 $dc['palettes']['slick-nav-separator']   = '{type_legend},type,headline;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space;{invisible_legend:hide},invisible,start,stop';
+
+
+$dc['fields']['customTpl']['load_callback'][] = [\HeimrichHannot\SlickBundle\DataContainer\ContentContainer::class, 'onCustomTplLoad'];
 
 $dc['fields']['slickContentSlider'] = [
     'label'            => &$GLOBALS['TL_LANG']['tl_content']['slickContentSlider'],

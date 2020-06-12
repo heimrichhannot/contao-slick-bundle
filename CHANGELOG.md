@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.4.2] - 2020-06-12
+- fixed customTpl field not showing templates named like default template for slick content start element
+
 ## [1.4.1] - 2020-04-18
 - restored ie support through polyfills
 

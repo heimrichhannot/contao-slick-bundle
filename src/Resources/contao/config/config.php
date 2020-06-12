@@ -60,9 +60,8 @@ array_insert($GLOBALS['BE_MOD']['system'], 1, [
  */
 array_insert($GLOBALS['TL_CTE'], 3, [
     'slick' => [
-        \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::TYPE =>
-            \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::class,
-        'slick-content-start'   => 'HeimrichHannot\SlickBundle\Element\ContentSlickContentStart',
+        \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::TYPE => \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::class,
+        \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::TYPE => \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::class,
         'slick-slide-separator' => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideSeparator',
 //        'slick-slide-start'     => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideStart',
 //        'slick-slide-stop'      => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideStop',
@@ -76,7 +75,7 @@ array_insert($GLOBALS['TL_CTE'], 3, [
 /**
  * Intend elements
  */
-$GLOBALS['TL_WRAPPERS']['start'][]     = 'slick-content-start';
+$GLOBALS['TL_WRAPPERS']['start'][]     = \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::TYPE;
 $GLOBALS['TL_WRAPPERS']['start'][]     = 'slick-slide-start';
 $GLOBALS['TL_WRAPPERS']['start'][]     = 'slick-nav-start';
 $GLOBALS['TL_WRAPPERS']['stop'][]      = 'slick-content-stop';
