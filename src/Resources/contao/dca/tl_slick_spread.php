@@ -166,7 +166,10 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
             'label'            => &$GLOBALS['TL_LANG']['tl_slick_spread']['slickCustomTpl'],
             'exclude'          => true,
             'inputType'        => 'select',
-            'options_callback' => ['tl_content', 'getElementTemplates'],
+            'options_callback' => static function (Contao\DataContainer $dc)
+            {
+                return Contao\Controller::getTemplateGroup('ce_' . $dc->activeRecord->type . '_');
+            },
             'eval'             => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
             'sql'              => "varchar(64) NOT NULL default ''",
         ],

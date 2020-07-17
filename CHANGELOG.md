@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.4.3] - 2020-07-17
+- fixed undefined method exception when adding a slick gallery to news in contao 4.9 (#28)
+
 ## [1.4.2] - 2020-06-12
 - fixed customTpl field not showing templates named like default template for slick content start element
 
