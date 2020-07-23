@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.4.4] - 2020-07-23
+- fixed jquery dependency for building process (now supports same jquery versions as slick library)
+
 ## [1.4.3] - 2020-07-17
 - fixed undefined method exception when adding a slick gallery to news in contao 4.9 (#28)
 

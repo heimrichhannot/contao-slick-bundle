@@ -2,7 +2,7 @@
   "name": "contao-slick-bundle",
   "version": "1.1.0",
   "dependencies": {
-    "jquery": "^3.4.1",
+    "jquery": ">=1.8.0",
     "slick-carousel": "^1.8.1",
     "nodelist-foreach-polyfill": "^1.2.0",
     "custom-event-polyfill": "^1.0.7"
