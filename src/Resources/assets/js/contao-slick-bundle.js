@@ -67,7 +67,7 @@ class SlickBundle
         // Todo: Remove in next major version
         let collapse = $(element).closest('.collapse');
         if (collapse.length > 0 && !collapse.hasClass('show')) {
-            console.log("Checking for sliders in slick bundle is deprecated and will be removed in next major version. Use beforeInit event instead.");
+            console.log("Checking for collapse in slick bundle is deprecated and will be removed in next major version. Use beforeInit event instead.");
             return;
         }
 

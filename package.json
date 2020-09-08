@@ -2,10 +2,10 @@
   "name": "contao-slick-bundle",
   "version": "1.1.0",
   "dependencies": {
+    "custom-event-polyfill": "^1.0.7",
     "jquery": ">=1.8.0",
-    "slick-carousel": "^1.8.1",
     "nodelist-foreach-polyfill": "^1.2.0",
-    "custom-event-polyfill": "^1.0.7"
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "@symfony/webpack-encore": "^0.28",

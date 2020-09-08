@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.4.5] - 2020-09-08
+- updated js dependencies
+
 ## [1.4.4] - 2020-07-23
 - fixed jquery dependency for building process (now supports same jquery versions as slick library)
 
