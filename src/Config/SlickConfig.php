@@ -181,7 +181,7 @@ class SlickConfig
      */
     public function createSettings(array $data, SlickConfigModel $config)
     {
-        \Controller::loadDataContainer('tl_slick_spread');
+        Controller::loadDataContainer('tl_slick_spread');
 
         $settings = $config;
 

@@ -68,7 +68,6 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
 							slick_verticalSwiping,
 							slick_rtl,
 							slick_waitForAnimate,
-							slick_randomActive,
 							slick_zIndex,
 							slick_unslick,
 							initCallback,
@@ -702,16 +701,6 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
         ],
         'slick_unslick'          => [
             'label'     => &$GLOBALS['TL_LANG']['tl_slick_spread']['slick_unslick'],
-            'inputType' => 'checkbox',
-            'exclude'   => true,
-            'eval'      => [
-                'tl_class'   => 'w50',
-                'isJsObject' => true,
-            ],
-            'sql'       => "char(1) NOT NULL default ''",
-        ],
-        'slick_randomActive'     => [
-            'label'     => &$GLOBALS['TL_LANG']['tl_slick_spread']['slick_randomActive'],
             'inputType' => 'checkbox',
             'exclude'   => true,
             'eval'      => [
