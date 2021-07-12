@@ -1,3 +1,5 @@
+> We moved away from slick slider to tiny slider because it doesn't have a dependency to jQuery. We're currently looking for a successor for maintaining the bundle. If you're interested, don't hesitate to contact us via GitHub issue or mail.
+
 # Slick
 
 A content slider/carousel for contao based on [kenwheelers slick carousel](http://kenwheeler.github.io/slick/).
