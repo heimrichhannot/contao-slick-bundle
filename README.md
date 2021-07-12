@@ -1,4 +1,4 @@
-> We moved away from slick slider to tiny slider because it doesn't have a dependency to jQuery. We're currently looking for a successor for maintaining the bundle. If you're interested, don't hesitate to contact us via GitHub issue or mail.
+> We moved away from slick slider to tiny slider (see [https://github.com/heimrichhannot/contao-tiny-slider-bundle](https://github.com/heimrichhannot/contao-tiny-slider-bundle)) because it doesn't have a dependency to jQuery. We're currently looking for a successor for maintaining the bundle. If you're interested, don't hesitate to contact us via GitHub issue or mail.
 
 # Slick
 
