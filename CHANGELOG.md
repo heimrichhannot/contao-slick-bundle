@@ -1,5 +1,8 @@
 # Changelog
 
+## [Unreleased] - 2020-09-20
+- Changed: allow php 8
+
 ## [1.5.0] - 2020-09-08
 - updated js dependencies
 - removed non functional randomActive config (#30)
