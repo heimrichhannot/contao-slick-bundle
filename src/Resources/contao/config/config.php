@@ -67,7 +67,7 @@ array_insert($GLOBALS['TL_CTE'], 3, [
 //        'slick-slide-stop'      => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideStop',
         'slick-content-stop'    => 'HeimrichHannot\SlickBundle\Element\ContentSlickContentStop',
         'slick-nav-start'       => 'HeimrichHannot\SlickBundle\Element\ContentSlickNavStart',
-        'slick-nav-separator'   => 'HeimrichHannot\SlickBundle\Element\ContentSlickNavSlideSeparator',
+//        'slick-nav-separator'   => 'HeimrichHannot\SlickBundle\Element\ContentSlickNavSlideSeparator',
         'slick-nav-stop'        => 'HeimrichHannot\SlickBundle\Element\ContentSlickNavStop',
     ],
 ]);
