@@ -53,19 +53,19 @@ class SlickConfig
 
             $slickKey = substr($key, 6); // trim slick_ prefix
 
-            if ($arrData['eval']['rgxp'] == 'digit') {
+            if (isset($arrData['eval']['rgxp']) && ($arrData['eval']['rgxp'] == 'digit')) {
                 $value = (int) $value;
             }
 
-            if ('checkbox' == $arrData['inputType'] && !$arrData['eval']['multiple']) {
+            if ('checkbox' == $arrData['inputType'] && !($arrData['eval']['multiple'] ?? false)) {
                 $value = (bool) filter_var($value, FILTER_VALIDATE_BOOLEAN);
             }
 
-            if ($arrData['eval']['multiple'] || 'multiColumnEditor' == $arrData['inputType']) {
+            if (($arrData['eval']['multiple'] ?? false) || 'multiColumnEditor' == $arrData['inputType']) {
                 $value = StringUtil::deserialize($value, true);
             }
 
-            if ($arrData['eval']['isJsObject']) {
+            if (($arrData['eval']['isJsObject'] ?? false)) {
                 $arrObjects[] = $slickKey;
             }
 

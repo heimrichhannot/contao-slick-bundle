@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.6.2] - 2022-05-27
+- Fixed: warnings in php 8
+
 ## [1.6.1] - 2022-05-27
 - Fixed: warnings in php 8
 - Fixed: outdated dependencies

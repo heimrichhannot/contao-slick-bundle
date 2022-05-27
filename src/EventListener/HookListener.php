@@ -138,7 +138,7 @@ class HookListener
                 $dc['palettes'][$strPalette] = str_replace($search, $replace, $dc['palettes'][$strPalette]);
             }
 
-            if (!is_array($GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'])) {
+            if (!is_array($GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'] ?? NULL)) {
                 $GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'] = [];
             }
 
@@ -146,13 +146,13 @@ class HookListener
             $arrSelectors = array_intersect($GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'], $arrFieldKeys);
 
             if (!empty($arrSelectors)) {
-                $dc['palettes']['__selector__'] = array_merge(is_array($dc['palettes']['__selector__']) ? $dc['palettes']['__selector__'] : [], $arrSelectors);
+                $dc['palettes']['__selector__'] = array_merge(is_array($dc['palettes']['__selector__'] ?? NULL) ? $dc['palettes']['__selector__'] : [], $arrSelectors);
 
                 foreach ($arrSelectors as $key) {
                     $arrFields = array_merge($arrFields, $this->getPaletteFields($key, $dc, 'subpalettes'));
                 }
 
-                $dc['subpalettes'] = array_merge(is_array($dc['subpalettes']) ? $dc['subpalettes'] : [], $GLOBALS['TL_DCA'][static::$strSpreadDca]['subpalettes']);
+                $dc['subpalettes'] = array_merge(is_array($dc['subpalettes'] ?? NULL) ? $dc['subpalettes'] : [], $GLOBALS['TL_DCA'][static::$strSpreadDca]['subpalettes']);
             }
 
             if (!is_array($arrFields)) {
