@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.1] - 2022-05-27
+- Fixed: warnings in php 8
+- Fixed: outdated dependencies
+
 ## [1.6.0] - 2020-09-20
 - Changed: allow php 8
 - Fixed: class not found exception for slick-nav-separator (disabled element as class not exist) ([#35])

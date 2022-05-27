@@ -115,7 +115,7 @@ class HookListener
 
             // prepend slick config palette
             if ($pos < 1) {
-                $replace = $GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes'][$strReplacePalette].$search;
+                $replace = ($GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes'][$strReplacePalette] ?? '').$search;
             } // append slick config palette
             else {
                 $replace = $search.$GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes'][$strReplacePalette];
@@ -174,7 +174,7 @@ class HookListener
 
     protected function getPaletteFields($strPalette, $dc, $type = 'palettes')
     {
-        $boxes = StringUtil::trimsplit(';', $GLOBALS['TL_DCA'][static::$strSpreadDca][$type][$strPalette]);
+        $boxes = StringUtil::trimsplit(';', $GLOBALS['TL_DCA'][static::$strSpreadDca][$type][$strPalette] ?? '');
 
         $arrFields = [];
 
@@ -206,7 +206,7 @@ class HookListener
 
                         // orderSRC support
                         if (isset($arrField['eval']['orderField'])) {
-                            $arrFields[$arrField['eval']['orderField']] = $GLOBALS['TL_DCA'][static::$strSpreadDca]['fields'][$arrField['eval']['orderField']];
+                            $arrFields[$arrField['eval']['orderField']] = $GLOBALS['TL_DCA'][static::$strSpreadDca]['fields']['slickOrderSRC'];
                         }
                     }
                 }
