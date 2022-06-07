@@ -2,7 +2,7 @@
     <?php if ($item->addImage): ?>
         <div>
             <figure class="image_container"<?php if ($item->margin): ?> style="<?php echo $item->margin; ?>"<?php endif; ?>>
-                <?php if ($item->href): ?>
+                <?php if ($item->href ?? false): ?>
                     <a href="<?php echo $item->href; ?>"<?php echo $item->attributes; ?> title="<?php echo $item->alt; ?>">
                         <?php $this->insert('picture_default', $item->picture); ?>
                     </a>

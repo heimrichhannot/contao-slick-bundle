@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2018 Heimrich & Hannot GmbH
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -93,23 +93,23 @@ class Slick extends Frontend
         return isset($this->data[$key]);
     }
 
-    public static function createSettings(array $arrData = [], SlickConfigModel $objConfig)
+    public static function createSettings(array $arrData, SlickConfigModel $objConfig)
     {
         Controller::loadDataContainer('tl_slick_spread');
         $objSettings = $objConfig;
         foreach ($arrData as $key => $value) {
-            if (substr($key, 0, 5) != 'slick') {
+            if ('slick' != substr($key, 0, 5)) {
                 continue;
             }
             $arrData = &$GLOBALS['TL_DCA']['tl_slick_spread']['fields'][$key];
-            if ($arrData['eval']['multiple'] || $key == 'slickOrderSRC') {
+            if (($arrData['eval']['multiple'] ?? false) || 'slickOrderSRC' == $key) {
                 $value = StringUtil::deserialize($value, true);
             }
             $objSettings->{$key} = $value;
         }
+
         return $objSettings;
     }
-
 
     public function parse()
     {
@@ -193,11 +193,11 @@ class Slick extends Frontend
                 break;
 
             case 'date_asc':
-                array_multisort($images, SORT_NUMERIC, $auxDate, SORT_ASC);
+                array_multisort($images, \SORT_NUMERIC, $auxDate, \SORT_ASC);
                 break;
 
             case 'date_desc':
-                array_multisort($images, SORT_NUMERIC, $auxDate, SORT_DESC);
+                array_multisort($images, \SORT_NUMERIC, $auxDate, \SORT_DESC);
                 break;
 
             case 'meta': // Backwards compatibility
@@ -205,14 +205,14 @@ class Slick extends Frontend
                 if ('' != $this->slickOrderSRC) {
                     $tmp = deserialize($this->slickOrderSRC);
 
-                    if (!empty($tmp) && is_array($tmp)) {
+                    if (!empty($tmp) && \is_array($tmp)) {
                         // Remove all values
                         $arrOrder = array_map(function () {
                         }, array_flip($tmp));
 
                         // Move the matching elements to their position in $arrOrder
                         foreach ($images as $k => $v) {
-                            if (array_key_exists($v['uuid'], $arrOrder)) {
+                            if (\array_key_exists($v['uuid'], $arrOrder)) {
                                 $arrOrder[$v['uuid']] = $v;
                                 unset($images[$k]);
                             }
@@ -239,11 +239,11 @@ class Slick extends Frontend
 
         // Limit the total number of items (see #2652)
         if ($this->slickNumberOfItems > 0) {
-            $images = array_slice($images, 0, $this->slickNumberOfItems);
+            $images = \array_slice($images, 0, $this->slickNumberOfItems);
         }
 
         $offset = 0;
-        $total = count($images);
+        $total = \count($images);
         $limit = $total;
 
         $intMaxWidth = (TL_MODE == 'BE') ? floor((640 / $total)) : (\Config::get('maxImageWidth') > 0 ? floor((\Config::get('maxImageWidth') / $total)) : null);
@@ -291,7 +291,7 @@ class Slick extends Frontend
         }
 
         // Return if there are no files
-        if (!is_array($this->slickMultiSRC) || empty($this->slickMultiSRC)) {
+        if (!\is_array($this->slickMultiSRC) || empty($this->slickMultiSRC)) {
             return '';
         }
 
@@ -310,8 +310,6 @@ class Slick extends Frontend
     /**
      * Prepare data for image template.
      *
-     * @param FilesModel $model
-     *
      * @return array|bool The image data as array for the image template, or false if invalid image
      */
     protected function prepareImage(FilesModel $model)
@@ -327,7 +325,7 @@ class Slick extends Frontend
         $arrMeta = $this->getMetaData($model->meta, $objPage->language);
 
         // Use the file name as title if none is given
-        if ('' == $arrMeta['title']) {
+        if (empty($arrMeta['title'])) {
             $arrMeta['title'] = StringUtil::specialchars($file->basename);
         }
 
@@ -338,9 +336,9 @@ class Slick extends Frontend
             'file' => $file,
             'model' => $model,
             'singleSRC' => $model->path,
-            'alt' => version_compare(VERSION, '4.0', '<') ? $arrMeta['title'] : $arrMeta['alt'],
-            'imageUrl' => $arrMeta['link'],
-            'caption' => $arrMeta['caption'],
+            'alt' => $arrMeta['alt'] ?? '',
+            'imageUrl' => $arrMeta['link'] ?? '',
+            'caption' => $arrMeta['caption'] ?? '',
             'title' => $arrMeta['title'],
         ];
 
