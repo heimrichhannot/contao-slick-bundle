@@ -1,16 +1,12 @@
 <?php
-/**
- * Contao Open Source CMS
+
+/*
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
  *
- * Copyright (c) 2019 Heimrich & Hannot GmbH
- *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
+ * @license LGPL-3.0-or-later
  */
 
-
 namespace HeimrichHannot\SlickBundle\EventListener;
-
 
 use Contao\Controller;
 use Contao\FrontendTemplate;
@@ -37,8 +33,8 @@ class HookListener
 
     /**
      * @param FrontendTemplate $template
-     * @param array $row
-     * @param ModuleNews $module
+     * @param array            $row
+     * @param ModuleNews       $module
      */
     public function onParseArticles(&$template, $row, $module)
     {
@@ -74,18 +70,16 @@ class HookListener
      * Spread Fields to existing DataContainers.
      *
      * @param string $strName
-     *
-     * @return bool false if Datacontainer not supported
      */
-    public function onLoadDataContainer($strName)
+    public function onLoadDataContainer($strName): void
     {
         Controller::loadDataContainer(static::$strSpreadDca);
 
-        if (!is_array($GLOBALS['TL_SLICK']['SUPPORTED']) || !in_array($strName, array_keys($GLOBALS['TL_SLICK']['SUPPORTED']), true)) {
-            return false;
+        if (!\is_array($GLOBALS['TL_SLICK']['SUPPORTED']) || !\in_array($strName, array_keys($GLOBALS['TL_SLICK']['SUPPORTED']), true)) {
+            return;
         }
 
-        if (!is_array($GLOBALS['TL_DCA'][static::$strSpreadDca]['fields'])) {
+        if (!\is_array($GLOBALS['TL_DCA'][static::$strSpreadDca]['fields'])) {
             $GLOBALS['TL_DCA'][static::$strSpreadDca]['fields'] = [];
         }
 
@@ -95,8 +89,7 @@ class HookListener
             return;
         }
 
-        if(isset($dc['config']['ctable']) && is_array($dc['config']['ctable']) && in_array('tl_content', $dc['config']['ctable']))
-        {
+        if (isset($dc['config']['ctable']) && \is_array($dc['config']['ctable']) && \in_array('tl_content', $dc['config']['ctable'])) {
             Controller::loadDataContainer('tl_content');
         }
 
@@ -108,7 +101,7 @@ class HookListener
             }
 
             $strConstant = $matches['constant'][0];
-            $strReplacePalette = @constant($matches['constant'][0]);
+            $strReplacePalette = @\constant($matches['constant'][0]);
 
             $pos = strpos($replace, '[['.$strConstant.']]');
             $search = str_replace('[['.$strConstant.']]', '', $replace);
@@ -138,7 +131,7 @@ class HookListener
                 $dc['palettes'][$strPalette] = str_replace($search, $replace, $dc['palettes'][$strPalette]);
             }
 
-            if (!is_array($GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'] ?? NULL)) {
+            if (!\is_array($GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'] ?? null)) {
                 $GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'] = [];
             }
 
@@ -146,29 +139,29 @@ class HookListener
             $arrSelectors = array_intersect($GLOBALS['TL_DCA'][static::$strSpreadDca]['palettes']['__selector__'], $arrFieldKeys);
 
             if (!empty($arrSelectors)) {
-                $dc['palettes']['__selector__'] = array_merge(is_array($dc['palettes']['__selector__'] ?? NULL) ? $dc['palettes']['__selector__'] : [], $arrSelectors);
+                $dc['palettes']['__selector__'] = array_merge(\is_array($dc['palettes']['__selector__'] ?? null) ? $dc['palettes']['__selector__'] : [], $arrSelectors);
 
                 foreach ($arrSelectors as $key) {
                     $arrFields = array_merge($arrFields, $this->getPaletteFields($key, $dc, 'subpalettes'));
                 }
 
-                $dc['subpalettes'] = array_merge(is_array($dc['subpalettes'] ?? NULL) ? $dc['subpalettes'] : [], $GLOBALS['TL_DCA'][static::$strSpreadDca]['subpalettes']);
+                $dc['subpalettes'] = array_merge(\is_array($dc['subpalettes'] ?? null) ? $dc['subpalettes'] : [], $GLOBALS['TL_DCA'][static::$strSpreadDca]['subpalettes']);
             }
 
-            if (!is_array($arrFields)) {
+            if (!\is_array($arrFields)) {
                 return;
             }
 
             // inject fields
-            $dc['fields'] = array_merge($arrFields, (is_array($dc['fields']) ? $dc['fields'] : []));
+            $dc['fields'] = array_merge($arrFields, (\is_array($dc['fields']) ? $dc['fields'] : []));
         }
 
         Controller::loadLanguageFile(static::$strSpreadDca);
         Controller::loadLanguageFile($strName);
 
         // add language to TL_LANG palette
-        if (is_array($GLOBALS['TL_LANG'][static::$strSpreadDca])) {
-            $GLOBALS['TL_LANG'][$strName] = array_merge(is_array($GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName] : [], $GLOBALS['TL_LANG'][static::$strSpreadDca]);
+        if (\is_array($GLOBALS['TL_LANG'][static::$strSpreadDca])) {
+            $GLOBALS['TL_LANG'][$strName] = array_merge(\is_array($GLOBALS['TL_LANG'][$strName]) ? $GLOBALS['TL_LANG'][$strName] : [], $GLOBALS['TL_LANG'][static::$strSpreadDca]);
         }
     }
 
@@ -213,7 +206,7 @@ class HookListener
             }
 
             // Unset a box if it does not contain any fields
-            if (count($boxes[$k]) < $eCount) {
+            if (\count($boxes[$k]) < $eCount) {
                 unset($boxes[$k]);
             }
         }

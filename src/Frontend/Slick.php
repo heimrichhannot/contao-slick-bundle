@@ -8,12 +8,15 @@
 
 namespace HeimrichHannot\SlickBundle\Frontend;
 
+use Contao\Config;
 use Contao\Controller;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
+use Contao\FrontendTemplate;
 use Contao\StringUtil;
 use Contao\System;
+use Contao\Validator;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 
 class Slick extends Frontend
@@ -50,7 +53,7 @@ class Slick extends Frontend
     {
         $this->data = $objSettings->row();
         $this->settings = $objSettings;
-        $this->Template = new \FrontendTemplate($this->strTemplate);
+        $this->Template = new FrontendTemplate($this->strTemplate);
         $this->getFiles();
     }
 
@@ -203,7 +206,7 @@ class Slick extends Frontend
             case 'meta': // Backwards compatibility
             case 'custom':
                 if ('' != $this->slickOrderSRC) {
-                    $tmp = deserialize($this->slickOrderSRC);
+                    $tmp = StringUtil::deserialize($this->slickOrderSRC);
 
                     if (!empty($tmp) && \is_array($tmp)) {
                         // Remove all values
@@ -246,7 +249,7 @@ class Slick extends Frontend
         $total = \count($images);
         $limit = $total;
 
-        $intMaxWidth = (TL_MODE == 'BE') ? floor((640 / $total)) : (\Config::get('maxImageWidth') > 0 ? floor((\Config::get('maxImageWidth') / $total)) : null);
+        $intMaxWidth = (TL_MODE == 'BE') ? floor((640 / $total)) : (Config::get('maxImageWidth') > 0 ? floor((Config::get('maxImageWidth') / $total)) : null);
         $strLightboxId = 'lightbox[lb'.$this->id.']';
         $body = [];
 
@@ -257,7 +260,7 @@ class Slick extends Frontend
             $strTemplate = $this->slickgalleryTpl;
         }
 
-        $objTemplate = new \FrontendTemplate($strTemplate);
+        $objTemplate = new FrontendTemplate($strTemplate);
         $objTemplate->setData($this->data);
 
         $this->Template->setData($this->data);
@@ -299,7 +302,7 @@ class Slick extends Frontend
         $this->files = System::getContainer()->get('contao.framework')->getAdapter(FilesModel::class)->findMultipleByUuids($this->slickMultiSRC);
 
         if (null === $this->files) {
-            if (!\Validator::isUuid($this->slickMultiSRC[0])) {
+            if (!Validator::isUuid($this->slickMultiSRC[0])) {
                 return '<p class="error">'.$GLOBALS['TL_LANG']['ERR']['version2format'].'</p>';
             }
 

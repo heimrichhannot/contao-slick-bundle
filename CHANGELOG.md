@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.4] - 2022-08-22
+- Changed: small code quality enhancements
+- Fixed: warnings in php
+
 ## [1.6.3] - 2022-06-07
 - Fixed: warnings in php 8
 
