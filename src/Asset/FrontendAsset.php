@@ -1,52 +1,43 @@
 <?php
-/**
- * Contao Open Source CMS
- *
- * Copyright (c) 2019 Heimrich & Hannot GmbH
- *
- * @author  Thomas Körner <t.koerner@heimrich-hannot.de>
- * @license http://www.gnu.org/licences/lgpl-3.0.html LGPL
- */
 
+/*
+ * Copyright (c) 2022 Heimrich & Hannot GmbH
+ *
+ * @license LGPL-3.0-or-later
+ */
 
 namespace HeimrichHannot\SlickBundle\Asset;
 
+use HeimrichHannot\EncoreContracts\PageAssetsTrait;
+use HeimrichHannot\UtilsBundle\Util\Utils;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 
-use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-class FrontendAsset
+class FrontendAsset implements ServiceSubscriberInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var ContainerUtil
-     */
-    private $containerUtil;
+    use PageAssetsTrait;
 
-    public function __construct(ContainerInterface $container, ContainerUtil $containerUtil)
+    private Utils $utils;
+
+    public function __construct(Utils $utils)
     {
-        $this->container = $container;
-        $this->containerUtil = $containerUtil;
+        $this->utils = $utils;
     }
 
     /**
-     * Setup the frontend assets needed for slick slider
+     * Set up the frontend assets needed for slick slider.
      */
     public function addFrontendAssets()
     {
-        if (!$this->containerUtil->isFrontend()) {
+        if (!$this->utils->container()->isFrontend()) {
             return;
         }
 
-        if ($this->container->has('huh.encore.asset.frontend')) {
-            $this->container->get('huh.encore.asset.frontend')->addActiveEntrypoint('contao-slick-bundle');
-        }
-
-        $GLOBALS['TL_USER_CSS']['slick']                 = 'assets/slick/slick/slick.css|static';
-        $GLOBALS['TL_JAVASCRIPT']['slick']               = 'assets/slick/slick/slick.min.js|static';
-        $GLOBALS['TL_JAVASCRIPT']['contao-slick-bundle'] = 'bundles/heimrichhannotcontaoslick/assets/contao-slick-bundle.js|static';
+        $this->addPageEntrypoint('contao-slick-bundle', [
+            'TL_CSS' => ['slick' => 'assets/slick/slick/slick.css|static'],
+            'TL_JAVASCRIPT' => [
+                'slick' => 'assets/slick/slick/slick.min.js|static',
+                'contao-slick-bundle' => 'bundles/heimrichhannotcontaoslick/assets/contao-slick-bundle.js|static',
+            ],
+        ]);
     }
 }
