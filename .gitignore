@@ -6,3 +6,4 @@ Thumbs.db
 composer.lock
 composer.json~
 composer.phar
+.yarn-metadata.json

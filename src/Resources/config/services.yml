@@ -12,3 +12,6 @@ services:
   HeimrichHannot\SlickBundle\Asset\FrontendAsset:
     autowire: true
     public: true
+
+  HeimrichHannot\SlickBundle\Asset\EncoreExtension:
+    autoconfigure: true
