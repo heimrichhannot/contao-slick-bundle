@@ -49,10 +49,9 @@
     ]
   },
   "extra": {
-    "contao-manager-plugin": "HeimrichHannot\\SlickBundle\\ContaoManager\\Plugin",
-    "foxy": true
+    "contao-manager-plugin": "HeimrichHannot\\SlickBundle\\ContaoManager\\Plugin"
   },
   "conflict": {
-    "heimrichhannot/contao-encore-bundle": "<1.5"
+    "heimrichhannot/contao-encore-bundle": "<1.16"
   }
 }
