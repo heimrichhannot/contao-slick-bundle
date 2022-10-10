@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.7.0] - 2022-10-10
+- Changed: Use encore contracts ([#64])
+
 ## [1.6.4] - 2022-08-22
 - Changed: small code quality enhancements
 - Fixed: warnings in php
@@ -82,4 +85,5 @@
 ## [1.0.0] - 2019-08-08
 - fixed frontend assets not included in newer contao versions (#9, #13)
 
+[#64]: https://github.com/heimrichhannot/contao-slick-bundle/pull/64
 [#35]: https://github.com/heimrichhannot/contao-slick-bundle/issues/35
