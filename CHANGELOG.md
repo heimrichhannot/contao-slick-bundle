@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.8.0] - 2022-11-14
+- Changed: small refactoring to list bundle integration to be compatible with newer versions ([#65])
+
 ## [1.7.0] - 2022-10-10
 - Changed: Use encore contracts ([#64])
 
@@ -85,5 +88,6 @@
 ## [1.0.0] - 2019-08-08
 - fixed frontend assets not included in newer contao versions (#9, #13)
 
+[#65]: https://github.com/heimrichhannot/contao-slick-bundle/pull/65
 [#64]: https://github.com/heimrichhannot/contao-slick-bundle/pull/64
 [#35]: https://github.com/heimrichhannot/contao-slick-bundle/issues/35
