@@ -60,6 +60,9 @@ class ListBundleListener implements EventSubscriberInterface
 
         if ($listConfig->addSlick && null !== ($objConfig = SlickConfigModel::findByPk($listConfig->slickConfig))) {
             if ($event->getModule() instanceof Module) {
+                $cssID = $event->getModule()->cssID;
+                $cssID[1] = $cssID[1].($cssID[1] ? ' ' : '').$this->slickConfig->getCssClassFromModel($objConfig);
+                $event->getModule()->cssID = $cssID;
             } else {
                 $event->getTemplate()->class = trim($event->getTemplate()->class.' '.$this->slickConfig->getCssClassFromModel($objConfig));
             }
