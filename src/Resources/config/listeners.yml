@@ -6,11 +6,4 @@ services:
   huh.slick.event_listener.hook_listener:
     class: HeimrichHannot\SlickBundle\EventListener\HookListener
 
-  HeimrichHannot\SlickBundle\EventListener\ListBeforeRenderListener:
-    tags:
-      - { name: kernel.event_listener, event: huh.list.event.list_before_render, method: onListBeforeRender }
-  HeimrichHannot\SlickBundle\EventListener\ListCompileListener:
-    tags:
-      - { name: kernel.event_listener, event: huh.list.event.list_compile, method: onListCompileRender }
-
   HeimrichHannot\SlickBundle\EventListener\LoadDataContainerListener: ~

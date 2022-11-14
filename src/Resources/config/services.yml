@@ -15,3 +15,7 @@ services:
 
   HeimrichHannot\SlickBundle\Asset\EncoreExtension:
     autoconfigure: true
+
+  HeimrichHannot\SlickBundle\EventListener\ListBundleListener:
+    autoconfigure: true
+    autowire: true
