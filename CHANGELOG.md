@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.8.1] - 2023-01-11
+- Fixed: warning if list bundle is not installed
+
 ## [1.8.0] - 2022-11-14
 - Changed: small refactoring to list bundle integration to be compatible with newer versions ([#65])
 
