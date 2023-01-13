@@ -1,12 +1,12 @@
 <?php
 
 /*
- * Copyright (c) 2018 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\SlickBundle;
+namespace HeimrichHannot\SlickBundle\Module;
 
 use Contao\BackendTemplate;
 use Contao\ModuleNewsList;
@@ -60,7 +60,7 @@ class ModuleSlickNewsList extends ModuleNewsList
         parent::compile();
 
         // HOOK: add custom logic
-        if (isset($GLOBALS['TL_HOOKS']['compileSlickNewsList']) && is_array($GLOBALS['TL_HOOKS']['compileSlickNewsList'])) {
+        if (isset($GLOBALS['TL_HOOKS']['compileSlickNewsList']) && \is_array($GLOBALS['TL_HOOKS']['compileSlickNewsList'])) {
             foreach ($GLOBALS['TL_HOOKS']['compileSlickNewsList'] as $callback) {
                 $this->import($callback[0]);
                 $this->{$callback[0]}->{$callback[1]}($this->Template, $this, $this->objModel);

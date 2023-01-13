@@ -1,12 +1,12 @@
 <?php
 
 /*
- * Copyright (c) 2018 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
 
-namespace HeimrichHannot\SlickBundle;
+namespace HeimrichHannot\SlickBundle\Module;
 
 use Contao\BackendTemplate;
 use Contao\ModuleEventlist;
@@ -30,7 +30,6 @@ class ModuleSlickEventList extends ModuleEventlist
     {
         parent::__construct($objModule, $strColumn);
     }
-
 
     public function generate()
     {
@@ -65,7 +64,7 @@ class ModuleSlickEventList extends ModuleEventlist
         parent::compile();
 
         // HOOK: add custom logic
-        if (isset($GLOBALS['TL_HOOKS']['compileSlickEventList']) && is_array($GLOBALS['TL_HOOKS']['compileSlickEventList'])) {
+        if (isset($GLOBALS['TL_HOOKS']['compileSlickEventList']) && \is_array($GLOBALS['TL_HOOKS']['compileSlickEventList'])) {
             foreach ($GLOBALS['TL_HOOKS']['compileSlickEventList'] as $callback) {
                 $this->import($callback[0]);
                 $this->{$callback[0]}->{$callback[1]}($this->Template, $this, $this->objModel);
