@@ -17,7 +17,7 @@ A content slider/carousel for contao based on [kenwheelers slick carousel](http:
 
 ### Install
 
-1. Install via composeer or contao manager: 
+1. Install via composer or contao manager: 
     ```
     composer require heimrichhannot/contao-slick-bundle
     ```
