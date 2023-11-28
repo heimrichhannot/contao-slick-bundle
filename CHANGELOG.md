@@ -1,5 +1,8 @@
 # Changelog
 
+## [UNRELEASED] - 2023-11-28
+- Fixed: warnings
+
 ## [1.8.2] - 2023-01-13
 - Fixed: namespace of frontend modules
 

@@ -47,6 +47,5 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
     {
         $loader->load('@HeimrichHannotContaoSlickBundle/Resources/config/services.yml');
         $loader->load('@HeimrichHannotContaoSlickBundle/Resources/config/listeners.yml');
-        $loader->load('@HeimrichHannotContaoSlickBundle/Resources/config/datacontainers.yml');
     }
 }

@@ -8,6 +8,8 @@
 
 // reusable palettes extension for tl_news, tl_content, tl_module etc
 
+use HeimrichHannot\SlickBundle\DataContainer\SlickSpreadContainer;
+
 $GLOBALS['TL_DCA']['tl_slick_spread'] = [
     'palettes' => [
         '__selector__' => ['addSlick', 'addGallery', 'slick_pausePlay'],
@@ -83,7 +85,7 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
             'sql' => "int(10) unsigned NOT NULL default '0'",
             'eval' => ['tl_class' => 'w50'],
             'wizard' => [
-                ['tl_slick_spread', 'editSlickConfig'],
+                [SlickSpreadContainer::class, 'onFieldsSlickConfigWizardCallback'],
             ],
         ],
         'addSlick' => [
@@ -139,7 +141,7 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
             'label' => &$GLOBALS['TL_LANG']['tl_slick_spread']['slickSize'],
             'exclude' => true,
             'inputType' => 'imageSize',
-            'options_callback' => [\HeimrichHannot\SlickBundle\DataContainer\SlickSpreadContainer::class, 'onSlickSizeOptionsCallback'],
+            'options_callback' => [SlickSpreadContainer::class, 'onFieldsSlickSizeOptionsCallback'],
             'reference' => &$GLOBALS['TL_LANG']['MSC'],
             'eval' => ['rgxp' => 'natural', 'includeBlankOption' => true, 'nospace' => true, 'helpwizard' => true, 'tl_class' => 'w50'],
             'sql' => "varchar(64) NOT NULL default ''",
@@ -768,14 +770,6 @@ class tl_slick_spread extends \Contao\Backend
         }
 
         return $varValue;
-    }
-
-    public function editSlickConfig(Contao\DataContainer $dc)
-    {
-        return ($dc->value < 1)
-            ? ''
-            : ' <a href="contao/main.php?do=slick_config&amp;act=edit&amp;id='.$dc->value.'&amp;popup=1&amp;nb=1&amp;rt='.REQUEST_TOKEN.'" title="'.sprintf(Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['tl_slick_spread']['editSlickConfig'][1]), $dc->value).'" style="padding-left:3px" onclick="Backend.openModalIframe({\'width\':768,\'title\':\''.Contao\StringUtil::specialchars(str_replace("'", "\\'",
-                sprintf($GLOBALS['TL_LANG']['tl_slick_spread']['editSlickConfig'][1], $dc->value))).'\',\'url\':this.href});return false">'.Contao\Image::getHtml('alias.gif', $GLOBALS['TL_LANG']['tl_slick_spread']['editSlickConfig'][0], 'style="vertical-align:top"').'</a>';
     }
 
     public function getConfigurations($dc)
