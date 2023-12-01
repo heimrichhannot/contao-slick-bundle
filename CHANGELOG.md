@@ -1,6 +1,6 @@
 # Changelog
 
-## [UNRELEASED] - 2023-11-28
+## [1.8.3] - 2023-12-01
 - Fixed: warnings
 
 ## [1.8.2] - 2023-01-13
