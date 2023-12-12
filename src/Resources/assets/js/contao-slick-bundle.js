@@ -8,7 +8,12 @@ class SlickBundle
 {
     static initPage()
     {
-        document.querySelectorAll('.slick').forEach((element) => {
+        SlickBundle.initElement(document);
+    }
+
+    static initElement(element)
+    {
+        element.querySelectorAll('.slick').forEach((element) => {
             SlickBundle.initSlickElement(element);
         });
     }
@@ -67,6 +72,9 @@ class SlickBundle
         // Todo: Remove in next major version
         let collapse = $(element).closest('.collapse');
         if (collapse.length > 0 && !collapse.hasClass('show')) {
+            collapse.on('shown.bs.collapse', () => {
+                SlickBundle.initSlickElement(collapse[0]);
+            });
             console.log("Checking for collapse in slick bundle is deprecated and will be removed in next major version. Use beforeInit event instead.");
             return;
         }
@@ -117,8 +125,5 @@ if (document.readyState !== 'loading') {
 
 // @todo: Remvoe in next major version
 $(document).on('shown.bs.modal', '.modal', SlickBundle.initPage);
-
-// @todo: Remove in next major version
-$(document).on('shown.bs.collapse', '.collapse', SlickBundle.initPage);
 
 document.addEventListener('huh.list.list_update_complete', SlickBundle.initPage);

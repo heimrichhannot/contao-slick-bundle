@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.8.4] - 2023-12-12
+- Fixed: slick sliders in bootstrap accordions not initialized
+
 ## [1.8.3] - 2023-12-01
 - Fixed: warnings
 
