@@ -3,8 +3,6 @@ services:
     resource: '../../{DataContainer}/*'
     autowire: true
     public: true
-    bind:
-      Contao\CoreBundle\Image\ImageSizes: '@contao.image.sizes'
 
   huh.slick.model.config:
     class: HeimrichHannot\SlickBundle\Model\SlickConfigModel

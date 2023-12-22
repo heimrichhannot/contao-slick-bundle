@@ -17,19 +17,23 @@ use Contao\DataContainer;
 use Contao\Image;
 use Contao\StringUtil;
 use HeimrichHannot\UtilsBundle\Util\Utils;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SlickSpreadContainer
+class SlickSpreadContainer implements ServiceSubscriberInterface
 {
+    private ContainerInterface $container;
     private Utils $utils;
     private TranslatorInterface $translator;
-    private ImageSizes $imageSizes;
+    private ?ImageSizes $imageSizes;
 
-    public function __construct(Utils $utils, TranslatorInterface $translator, ImageSizes $imageSizes)
+    public function __construct(ContainerInterface $container, Utils $utils, TranslatorInterface $translator)
     {
+        $this->container = $container;
         $this->utils = $utils;
         $this->translator = $translator;
-        $this->imageSizes = $imageSizes;
+        $this->imageSizes = $this->container->get(ImageSizes::class);
     }
 
     public function onFieldsSlickSizeOptionsCallback(): array
@@ -67,5 +71,10 @@ class SlickSpreadContainer
                 ) . '\',\'url\':this.href});return false',
                 Image::getHtml('alias.gif', $this->translator->trans('tl_slick_spread.slickConfig.0', [], 'contao_tl_slick_spread'), 'style="vertical-align:top"')
             );
+    }
+
+    public static function getSubscribedServices(): array
+    {
+        return ['?'.ImageSizes::class];
     }
 }
