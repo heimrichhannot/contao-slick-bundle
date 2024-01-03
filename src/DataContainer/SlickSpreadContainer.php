@@ -26,23 +26,23 @@ class SlickSpreadContainer implements ServiceSubscriberInterface
     private ContainerInterface $container;
     private Utils $utils;
     private TranslatorInterface $translator;
-    private ?ImageSizes $imageSizes;
 
     public function __construct(ContainerInterface $container, Utils $utils, TranslatorInterface $translator)
     {
         $this->container = $container;
         $this->utils = $utils;
         $this->translator = $translator;
-        $this->imageSizes = $this->container->get(ImageSizes::class);
     }
 
     public function onFieldsSlickSizeOptionsCallback(): array
     {
-        return $this->imageSizes->getAllOptions();
+        $imageSizes = $this->container->has('contao.image.image_sizes')
+            ? $this->container->get('contao.image.image_sizes')
+            : $this->container->get(ImageSizes::class);
+        return $imageSizes->getAllOptions();
     }
 
-    /** @noinspection PhpTranslationDomainInspection
-     * @noinspection PhpTranslationKeyInspection
+    /**
      * @noinspection HtmlUnknownTarget
      */
     public function onFieldsSlickConfigWizardCallback(DataContainer $dc): string
@@ -50,6 +50,15 @@ class SlickSpreadContainer implements ServiceSubscriberInterface
         if ($dc->value < 1) {
             return '';
         }
+
+        $generateTitle = function (DataContainer $dc) {
+            $title = sprintf($this->translator->trans('tl_slick_spread.slickConfig.0', [], 'contao_tl_slick_spread'), $dc->value);
+            $title = str_replace("'", "\\'", $title);
+            $title = StringUtil::specialchars($title);
+            $title = str_replace("'", "\\'", $title);
+            return $title;
+        };
+
         return ($dc->value < 1)
             ? ''
             : sprintf(
@@ -62,19 +71,16 @@ class SlickSpreadContainer implements ServiceSubscriberInterface
                     'nb' => 1,
                 ]),
                 sprintf(StringUtil::specialchars($this->translator->trans('tl_slick_spread.slickConfig.1', [], 'contao_tl_slick_spread')), $dc->value),
-                'Backend.openModalIframe({\'width\':768,\'title\':\'' . str_replace(
-                    "'", "\\'", StringUtil::specialchars(str_replace("'", "\\'", sprintf(
-                        $this->translator->trans('tl_slick_spread.slickConfig.0', [], 'contao_tl_slick_spread'),
-                        $dc->value
-                    )
-                ))
-                ) . '\',\'url\':this.href});return false',
+                sprintf("Backend.openModalIframe({'width':768,'title':'%s','url':this.href});return false;", $generateTitle($dc)),
                 Image::getHtml('alias.gif', $this->translator->trans('tl_slick_spread.slickConfig.0', [], 'contao_tl_slick_spread'), 'style="vertical-align:top"')
             );
     }
 
     public static function getSubscribedServices(): array
     {
-        return ['?'.ImageSizes::class];
+        return [
+            '?'.ImageSizes::class,
+            '?contao.image.image_sizes'
+        ];
     }
 }
