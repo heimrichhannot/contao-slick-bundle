@@ -23,9 +23,9 @@
   },
   "require": {
     "php": "^7.4 || ^8.0",
-    "contao/core-bundle": "^4.4",
+    "contao/core-bundle": "^4.9 || ^5.0",
     "heimrichhannot/contao-encore-contracts": "^1.0",
-    "heimrichhannot/contao-multi-column-editor-bundle": "^1.0|^2.0",
+    "heimrichhannot/contao-multi-column-editor-bundle": "^1.0 || ^2.0",
     "heimrichhannot/contao-utils-bundle": "^2.221.0",
     "heimrichhannot-contao-components/slick": "^1.8.1",
     "symfony/event-dispatcher": "^3.4 || ^4.4 || ^5.4",
