@@ -16,8 +16,8 @@ use Contao\CoreBundle\Image\ImageSizes;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\StringUtil;
+use Contao\System;
 use HeimrichHannot\UtilsBundle\Util\Utils;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -27,7 +27,7 @@ class SlickSpreadContainer implements ServiceSubscriberInterface
     private Utils $utils;
     private TranslatorInterface $translator;
 
-    public function __construct(ContainerInterface $container, Utils $utils, TranslatorInterface $translator)
+    public function __construct(Utils $utils, TranslatorInterface $translator)
     {
         $this->container = $container;
         $this->utils = $utils;
@@ -36,9 +36,10 @@ class SlickSpreadContainer implements ServiceSubscriberInterface
 
     public function onFieldsSlickSizeOptionsCallback(): array
     {
-        $imageSizes = $this->container->has('contao.image.image_sizes')
-            ? $this->container->get('contao.image.image_sizes')
-            : $this->container->get(ImageSizes::class);
+        $container = System::getContainer();
+        $imageSizes = $container->has('contao.image.image_sizes')
+            ? $container->get('contao.image.image_sizes')
+            : $container->get(ImageSizes::class);
         return $imageSizes->getAllOptions();
     }
 
