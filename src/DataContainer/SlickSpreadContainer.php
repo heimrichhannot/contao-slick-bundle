@@ -23,11 +23,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SlickSpreadContainer implements ServiceSubscriberInterface
 {
+    private ContainerInterface $container;
     private Utils $utils;
     private TranslatorInterface $translator;
 
     public function __construct(Utils $utils, TranslatorInterface $translator)
     {
+        $this->container = $container;
         $this->utils = $utils;
         $this->translator = $translator;
     }

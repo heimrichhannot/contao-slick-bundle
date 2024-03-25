@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.9.0] - 2024-01-29
+- Changed: allow contao 5
+- Fixed: contao 4.9 compatibility
+
 ## [1.8.4] - 2023-12-12
 - Fixed: slick sliders in bootstrap accordions not initialized
 
