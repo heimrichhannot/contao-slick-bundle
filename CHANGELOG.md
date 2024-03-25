@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.10.0] - 2024-03-25
+- Added: Support for Utils v3
+- Fixed: Contao 5 compatibility issues
+
 ## [1.9.0] - 2024-01-29
 - Changed: allow contao 5
 - Fixed: contao 4.9 compatibility
