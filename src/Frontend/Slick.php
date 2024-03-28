@@ -10,13 +10,11 @@ namespace HeimrichHannot\SlickBundle\Frontend;
 
 use Contao\Config;
 use Contao\Controller;
-use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\Database\Result;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\FrontendTemplate;
-use Contao\FrontendUser;
 use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
@@ -24,7 +22,6 @@ use Contao\Template;
 use Contao\Validator;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 use HeimrichHannot\UtilsBundle\Util\Utils;
-use stdClass;
 
 class Slick extends Frontend
 {
