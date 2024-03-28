@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.9.2] - 2024-03-28
+- Fixed: various contao 5 and symfony 6 related issues
+
 ## [1.9.1] - 2024-03-25
 - Added: Support for Utils v3
 - Fixed: Contao 5 compatibility issues
