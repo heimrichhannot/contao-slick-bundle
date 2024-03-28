@@ -12,11 +12,13 @@
 namespace HeimrichHannot\SlickBundle\DataContainer;
 
 
+use Contao\Backend;
 use Contao\CoreBundle\Image\ImageSizes;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\StringUtil;
 use Contao\System;
+use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 use HeimrichHannot\UtilsBundle\Util\Utils;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -73,6 +75,42 @@ class SlickSpreadContainer implements ServiceSubscriberInterface
                 sprintf("Backend.openModalIframe({'width':768,'title':'%s','url':this.href});return false;", $generateTitle($dc)),
                 Image::getHtml('alias.gif', $this->translator->trans('tl_slick_spread.slickConfig.0', [], 'contao_tl_slick_spread'), 'style="vertical-align:top"')
             );
+    }
+
+    /**
+     * Return all gallery templates as array.
+     *
+     * @return array
+     */
+    public function getGalleryTemplates()
+    {
+        return Backend::getTemplateGroup('slick_');
+    }
+
+    public function setFileTreeFlags($varValue, DataContainer $dc)
+    {
+        if ($dc->activeRecord && 'slick' === $dc->activeRecord->type) {
+            $GLOBALS['TL_DCA'][$dc->table]['fields'][$dc->field]['eval']['isGallery'] = true;
+        }
+
+        return $varValue;
+    }
+
+    public function getConfigurations(DataContainer $dc)
+    {
+        $arrOptions = [];
+
+        $objConfig = SlickConfigModel::findBy(['id != ?'], $dc->activeRecord->id);
+
+        if (null === $objConfig) {
+            return $arrOptions;
+        }
+
+        while ($objConfig->next()) {
+            $arrOptions[$objConfig->id] = $objConfig->title;
+        }
+
+        return $arrOptions;
     }
 
     public static function getSubscribedServices(): array
