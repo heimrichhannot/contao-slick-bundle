@@ -13,6 +13,7 @@ use Contao\ModuleEventlist;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Patchwork\Utf8;
 
 class ModuleSlickEventList extends ModuleEventlist
@@ -33,7 +34,7 @@ class ModuleSlickEventList extends ModuleEventlist
 
     public function generate()
     {
-        if (TL_MODE == 'BE') {
+        if (System::getContainer()->get(Utils::class)->container()->isBackend()) {
             $objTemplate = new BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['eventlist'][0]).' ###';

@@ -134,10 +134,12 @@ class Slick extends Frontend
             return '';
         }
 
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+
         // Get all images
         while ($files->next()) {
             // Continue if the files has been processed or does not exist
-            if (isset($images[$files->path]) || !file_exists(TL_ROOT.'/'.$files->path)) {
+            if (isset($images[$files->path]) || !file_exists($rootDir.DIRECTORY_SEPARATOR.$files->path)) {
                 continue;
             }
 
@@ -160,7 +162,7 @@ class Slick extends Frontend
 
                 while ($subFiles->next()) {
                     // Continue if the files has been processed or does not exist
-                    if (isset($images[$subFiles->path]) || !file_exists(TL_ROOT.'/'.$subFiles->path)) {
+                    if (isset($images[$subFiles->path]) || !file_exists($rootDir.DIRECTORY_SEPARATOR.$subFiles->path)) {
                         continue;
                     }
 
@@ -189,11 +191,11 @@ class Slick extends Frontend
         switch ($this->slickSortBy) {
             default:
             case 'name_asc':
-                uksort($images, 'basename_natcasecmp');
+                ksort($images);
                 break;
 
             case 'name_desc':
-                uksort($images, 'basename_natcasercmp');
+                krsort($images);
                 break;
 
             case 'date_asc':
@@ -265,7 +267,7 @@ class Slick extends Frontend
         $strTemplate = 'slick_default';
 
         // Use a custom template
-        if (TL_MODE == 'FE' && '' != $this->slickgalleryTpl) {
+        if ($utils->container()->isFrontend() && '' != $this->slickgalleryTpl) {
             $strTemplate = $this->slickgalleryTpl;
         }
 
@@ -276,15 +278,14 @@ class Slick extends Frontend
         $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($this->settings).' slick';
 
         for ($i = $offset; $i < $limit; ++$i) {
-            $objImage = new stdClass();
+            $objImage = new FrontendTemplate();
             $images[$i]['size'] = $this->slickSize;
             $images[$i]['fullsize'] = $this->slickFullsize;
 
-            if (false) {
-                Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
-            }
+            // prior to Contao 5:
+            //   Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
 
-            $figureBuilder = System::getContainer()->get(Studio::class)->createFigureBuilder();
+            $figureBuilder = System::getContainer()->get('contao.image.studio')->createFigureBuilder();
             $figure = $figureBuilder
                 ->fromFilesModel($images[$i]['model'])
                 ->setSize([$intMaxWidth, $intMaxWidth, 'proportional'])
