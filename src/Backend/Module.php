@@ -18,7 +18,7 @@ class Module extends Backend
     /**
      * Modify data container config.
      *
-     * @param \DataContainer $dc
+     * @param DataContainer $dc
      */
     public function modifyDC(DataContainer $dc)
     {

@@ -169,6 +169,8 @@ class HookListener
         $arrFields = [];
 
         if (!empty($boxes)) {
+            $eCount = 0;
+            $k = null;
             foreach ($boxes as $k => $v) {
                 $eCount = 1;
                 $boxes[$k] = StringUtil::trimsplit(',', $v);
@@ -203,7 +205,7 @@ class HookListener
             }
 
             // Unset a box if it does not contain any fields
-            if (\count($boxes[$k]) < $eCount) {
+            if ($k !== null && count($boxes[$k]) < $eCount) {
                 unset($boxes[$k]);
             }
         }

@@ -16,8 +16,11 @@ use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\FrontendTemplate;
+use Contao\FrontendUser;
+use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
+use Contao\Template;
 use Contao\Validator;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
 use HeimrichHannot\UtilsBundle\Util\Utils;
@@ -31,27 +34,20 @@ class Slick extends Frontend
      * @var array
      */
     protected $data = [];
-
     /**
      * Current record.
      *
-     * @var \Model
+     * @var Model
      */
     protected $settings;
-
     /**
      * Files object.
      *
      * @var Result|\Contao\FilesModel
      */
     protected $files;
-
-    /**
-     * Template.
-     *
-     * @var string
-     */
-    protected $strTemplate = 'ce_slick';
+    protected string $strTemplate = 'ce_slick';
+    protected Template $Template;
 
     public function __construct($objSettings)
     {
@@ -310,7 +306,8 @@ class Slick extends Frontend
     protected function getFiles()
     {
         // Use the home directory of the current user as file source
-        if ($this->slickUseHomeDir && FE_USER_LOGGED_IN) {
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
+        if ($this->slickUseHomeDir && $hasFrontendUser) {
             $this->import('FrontendUser', 'User');
 
             if ($this->User->assignDir && $this->User->homeDir) {
