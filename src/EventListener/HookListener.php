@@ -13,22 +13,19 @@ use Contao\FrontendTemplate;
 use Contao\ModuleNews;
 use Contao\NewsArchiveModel;
 use Contao\StringUtil;
+use HeimrichHannot\SlickBundle\Config\SlickConfig;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class HookListener
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected SlickConfig $config;
 
     private static $strSpreadDca = 'tl_slick_spread';
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(SlickConfig $config)
     {
-        $this->container = $container;
+        $this->config = $config;
     }
 
     /**
@@ -61,7 +58,7 @@ class HookListener
         // set size from module
         $row['slickSize'] = $module->imgSize;
 
-        $objGallery = new Slick($this->container->get('huh.slick.config')->createSettings($row, $objConfig));
+        $objGallery = new Slick($this->config->createSettings($row, $objConfig));
 
         $template->gallery = $objGallery->parse();
     }

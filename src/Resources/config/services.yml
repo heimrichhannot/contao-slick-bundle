@@ -1,4 +1,8 @@
 services:
+  _defaults:
+    bind:
+      Psr\Container\ContainerInterface: '@service_container'
+
   HeimrichHannot\SlickBundle\:
     resource: '../../{DataContainer}/*'
     autowire: true
