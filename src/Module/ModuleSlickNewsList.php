@@ -13,6 +13,7 @@ use Contao\ModuleNewsList;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 use Patchwork\Utf8;
 
 class ModuleSlickNewsList extends ModuleNewsList
@@ -28,7 +29,7 @@ class ModuleSlickNewsList extends ModuleNewsList
 
     public function generate()
     {
-        if (System::getContainer()->get('huh.utils.container')->isBackend()) {
+        if (System::getContainer()->get(Utils::class)->container()->isBackend()) {
             $objTemplate = new BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### '.Utf8::strtoupper($GLOBALS['TL_LANG']['FMD']['newslist'][0]).' ###';

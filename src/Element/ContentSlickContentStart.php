@@ -13,6 +13,7 @@ use Contao\ContentElement;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class ContentSlickContentStart extends ContentElement
 {
@@ -28,7 +29,8 @@ class ContentSlickContentStart extends ContentElement
 
     public function generate()
     {
-        if (System::getContainer()->get('huh.utils.container')->isBackend()) {
+        $utils = System::getContainer()->get(Utils::class);
+        if ($utils->container()->isBackend()) {
             $this->strTemplate = 'be_wildcard';
             $this->Template = new BackendTemplate($this->strTemplate);
             $this->Template->title = $this->headline;
@@ -39,8 +41,6 @@ class ContentSlickContentStart extends ContentElement
         if (!$this->slickConfig) {
             return '';
         }
-
-        $container = System::getContainer();
 
         $objConfig = SlickConfigModel::findByPk($this->slickConfig);
 

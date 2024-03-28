@@ -13,6 +13,7 @@ use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class SlickImageSliderElement extends ContentGallery
 {
@@ -33,7 +34,7 @@ class SlickImageSliderElement extends ContentGallery
     public function generate()
     {
         // show gallery instead of slickcarousel in backend mode
-        if (System::getContainer()->get('huh.utils.container')->isBackend()) {
+        if (System::getContainer()->get(Utils::class)->container()->isBackend()) {
             return parent::generate();
         }
 

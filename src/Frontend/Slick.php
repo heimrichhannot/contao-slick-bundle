@@ -10,6 +10,8 @@ namespace HeimrichHannot\SlickBundle\Frontend;
 
 use Contao\Config;
 use Contao\Controller;
+use Contao\CoreBundle\Image\Studio\Studio;
+use Contao\Database\Result;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
@@ -18,6 +20,8 @@ use Contao\StringUtil;
 use Contao\System;
 use Contao\Validator;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
+use stdClass;
 
 class Slick extends Frontend
 {
@@ -38,7 +42,7 @@ class Slick extends Frontend
     /**
      * Files object.
      *
-     * @var \FilesModel
+     * @var Result|\Contao\FilesModel
      */
     protected $files;
 
@@ -51,6 +55,7 @@ class Slick extends Frontend
 
     public function __construct($objSettings)
     {
+        parent::__construct();
         $this->data = $objSettings->row();
         $this->settings = $objSettings;
         $this->Template = new FrontendTemplate($this->strTemplate);
@@ -64,13 +69,13 @@ class Slick extends Frontend
      *
      * @return mixed
      */
-    public function __get($key)
+    public function __get($strKey)
     {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
+        if (isset($this->data[$strKey])) {
+            return $this->data[$strKey];
         }
 
-        return parent::__get($key);
+        return parent::__get($strKey);
     }
 
     /**
@@ -249,7 +254,15 @@ class Slick extends Frontend
         $total = \count($images);
         $limit = $total;
 
-        $intMaxWidth = (TL_MODE == 'BE') ? floor((640 / $total)) : (Config::get('maxImageWidth') > 0 ? floor((Config::get('maxImageWidth') / $total)) : null);
+        $utils = System::getContainer()->get(Utils::class);
+        if ($utils->container()->isBackend()) {
+            $intMaxWidth = floor(640 / $total);
+        } else {
+            $intMaxWidth = Config::get('maxImageWidth') > 0
+                ? floor(Config::get('maxImageWidth') / $total)
+                : null;
+        }
+
         $strLightboxId = 'lightbox[lb'.$this->id.']';
         $body = [];
 
@@ -267,10 +280,24 @@ class Slick extends Frontend
         $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($this->settings).' slick';
 
         for ($i = $offset; $i < $limit; ++$i) {
-            $objImage = new \stdClass();
+            $objImage = new stdClass();
             $images[$i]['size'] = $this->slickSize;
             $images[$i]['fullsize'] = $this->slickFullsize;
-            Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
+
+            if (false) {
+                Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
+            }
+
+            $figureBuilder = System::getContainer()->get(Studio::class)->createFigureBuilder();
+            $figure = $figureBuilder
+                ->fromFilesModel($images[$i]['model'])
+                ->setSize([$intMaxWidth, $intMaxWidth, 'proportional'])
+                ->enableLightbox((bool) $this->slickFullsize)
+                ->setLightboxGroupIdentifier($strLightboxId)
+                ->setLightboxSize(StringUtil::deserialize($images[$i]['lightboxSize'] ?? null) ?: null)
+                ->buildIfResourceExists();
+
+            $figure->applyLegacyTemplateData($objImage);
             $body[$i] = $objImage;
         }
 

@@ -16,24 +16,15 @@ use Contao\Controller;
 use Contao\DataContainer;
 use Contao\DC_Table;
 use HeimrichHannot\SlickBundle\Element\ContentSlickContentStart;
-use HeimrichHannot\UtilsBundle\Container\ContainerUtil;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class ContentContainer
 {
-    /**
-     * @var ContainerInterface
-     */
-    private $container;
-    /**
-     * @var ContainerUtil
-     */
-    private $containerUtil;
+    private Utils $utils;
 
-    public function __construct(ContainerInterface $container, ContainerUtil $containerUtil)
+    public function __construct(Utils $utils)
     {
-        $this->container = $container;
-        $this->containerUtil = $containerUtil;
+        $this->utils = $utils;
     }
 
     /**
@@ -44,14 +35,14 @@ class ContentContainer
     {
         $arrOptions = [];
 
-        $objSlider = $this->container->get('huh.utils.model')->findModelInstancesBy('tl_content', 'type', 'slick-content-start');
+        $objSlider = $this->utils->model()->findModelInstancesBy('tl_content', 'type', 'slick-content-start');
 
         if ($objSlider === null) {
             return $arrOptions;
         }
 
         while ($objSlider->next()) {
-            $objArticle = $this->container->get('huh.utils.model')->findModelInstanceByPk('tl_article', $objSlider->pid);
+            $objArticle = $this->utils->model()->findModelInstanceByPk('tl_article', $objSlider->pid);
 
             if ($objArticle === null) {
                 continue;
@@ -71,7 +62,7 @@ class ContentContainer
      */
     public function onCustomTplLoad($value, $context, $module = null)
     {
-        if (!$this->containerUtil->isBackend()) {
+        if (!$this->utils->container()->isBackend()) {
             return $value;
         }
         if ($context->activeRecord->type === ContentSlickContentStart::TYPE) {
