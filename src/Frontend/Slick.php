@@ -10,14 +10,18 @@ namespace HeimrichHannot\SlickBundle\Frontend;
 
 use Contao\Config;
 use Contao\Controller;
+use Contao\Database\Result;
 use Contao\File;
 use Contao\FilesModel;
 use Contao\Frontend;
 use Contao\FrontendTemplate;
+use Contao\Model;
 use Contao\StringUtil;
 use Contao\System;
+use Contao\Template;
 use Contao\Validator;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class Slick extends Frontend
 {
@@ -27,30 +31,24 @@ class Slick extends Frontend
      * @var array
      */
     protected $data = [];
-
     /**
      * Current record.
      *
-     * @var \Model
+     * @var Model
      */
     protected $settings;
-
     /**
      * Files object.
      *
-     * @var \FilesModel
+     * @var Result|\Contao\FilesModel
      */
     protected $files;
-
-    /**
-     * Template.
-     *
-     * @var string
-     */
-    protected $strTemplate = 'ce_slick';
+    protected string $strTemplate = 'ce_slick';
+    protected Template $Template;
 
     public function __construct($objSettings)
     {
+        parent::__construct();
         $this->data = $objSettings->row();
         $this->settings = $objSettings;
         $this->Template = new FrontendTemplate($this->strTemplate);
@@ -64,13 +62,13 @@ class Slick extends Frontend
      *
      * @return mixed
      */
-    public function __get($key)
+    public function __get($strKey)
     {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
+        if (isset($this->data[$strKey])) {
+            return $this->data[$strKey];
         }
 
-        return parent::__get($key);
+        return parent::__get($strKey);
     }
 
     /**
@@ -133,10 +131,12 @@ class Slick extends Frontend
             return '';
         }
 
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+
         // Get all images
         while ($files->next()) {
             // Continue if the files has been processed or does not exist
-            if (isset($images[$files->path]) || !file_exists(TL_ROOT.'/'.$files->path)) {
+            if (isset($images[$files->path]) || !file_exists($rootDir.DIRECTORY_SEPARATOR.$files->path)) {
                 continue;
             }
 
@@ -159,7 +159,7 @@ class Slick extends Frontend
 
                 while ($subFiles->next()) {
                     // Continue if the files has been processed or does not exist
-                    if (isset($images[$subFiles->path]) || !file_exists(TL_ROOT.'/'.$subFiles->path)) {
+                    if (isset($images[$subFiles->path]) || !file_exists($rootDir.DIRECTORY_SEPARATOR.$subFiles->path)) {
                         continue;
                     }
 
@@ -188,11 +188,11 @@ class Slick extends Frontend
         switch ($this->slickSortBy) {
             default:
             case 'name_asc':
-                uksort($images, 'basename_natcasecmp');
+                ksort($images);
                 break;
 
             case 'name_desc':
-                uksort($images, 'basename_natcasercmp');
+                krsort($images);
                 break;
 
             case 'date_asc':
@@ -249,14 +249,22 @@ class Slick extends Frontend
         $total = \count($images);
         $limit = $total;
 
-        $intMaxWidth = (TL_MODE == 'BE') ? floor((640 / $total)) : (Config::get('maxImageWidth') > 0 ? floor((Config::get('maxImageWidth') / $total)) : null);
+        $utils = System::getContainer()->get(Utils::class);
+        if ($utils->container()->isBackend()) {
+            $intMaxWidth = floor(640 / $total);
+        } else {
+            $intMaxWidth = Config::get('maxImageWidth') > 0
+                ? floor(Config::get('maxImageWidth') / $total)
+                : null;
+        }
+
         $strLightboxId = 'lightbox[lb'.$this->id.']';
         $body = [];
 
         $strTemplate = 'slick_default';
 
         // Use a custom template
-        if (TL_MODE == 'FE' && '' != $this->slickgalleryTpl) {
+        if ($utils->container()->isFrontend() && '' != $this->slickgalleryTpl) {
             $strTemplate = $this->slickgalleryTpl;
         }
 
@@ -267,10 +275,23 @@ class Slick extends Frontend
         $this->Template->class .= ' '.System::getContainer()->get('huh.slick.config')->getCssClassFromModel($this->settings).' slick';
 
         for ($i = $offset; $i < $limit; ++$i) {
-            $objImage = new \stdClass();
+            $objImage = new FrontendTemplate();
             $images[$i]['size'] = $this->slickSize;
             $images[$i]['fullsize'] = $this->slickFullsize;
-            Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
+
+            // prior to Contao 5:
+            //   Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
+
+            $figureBuilder = System::getContainer()->get('contao.image.studio')->createFigureBuilder();
+            $figure = $figureBuilder
+                ->fromFilesModel($images[$i]['model'])
+                ->setSize([$intMaxWidth, $intMaxWidth, 'proportional'])
+                ->enableLightbox((bool) $this->slickFullsize)
+                ->setLightboxGroupIdentifier($strLightboxId)
+                ->setLightboxSize(StringUtil::deserialize($images[$i]['lightboxSize'] ?? null) ?: null)
+                ->buildIfResourceExists();
+
+            $figure->applyLegacyTemplateData($objImage);
             $body[$i] = $objImage;
         }
 
@@ -283,7 +304,8 @@ class Slick extends Frontend
     protected function getFiles()
     {
         // Use the home directory of the current user as file source
-        if ($this->slickUseHomeDir && FE_USER_LOGGED_IN) {
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
+        if ($this->slickUseHomeDir && $hasFrontendUser) {
             $this->import('FrontendUser', 'User');
 
             if ($this->User->assignDir && $this->User->homeDir) {

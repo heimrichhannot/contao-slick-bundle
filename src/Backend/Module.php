@@ -8,17 +8,19 @@
 
 namespace HeimrichHannot\SlickBundle\Backend;
 
+use Contao\Backend;
+use Contao\DataContainer;
 use Contao\ModuleModel;
 use Contao\System;
 
-class Module extends \Contao\Backend
+class Module extends Backend
 {
     /**
      * Modify data container config.
      *
-     * @param \DataContainer $dc
+     * @param DataContainer $dc
      */
-    public function modifyDC(\DataContainer $dc)
+    public function modifyDC(DataContainer $dc)
     {
         $objModule = System::getContainer()->get('contao.framework')->getAdapter(ModuleModel::class)->findByPk($dc->id);
 

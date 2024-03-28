@@ -10,10 +10,12 @@
  * Table tl_slick_config
  */
 
+use Contao\DC_Table;
+
 $GLOBALS['TL_DCA']['tl_slick_config'] = [
     // Config
     'config' => [
-        'dataContainer' => 'Table',
+        'dataContainer' => DC_Table::class,
         'enableVersioning' => true,
         'sql' => [
             'keys' => [

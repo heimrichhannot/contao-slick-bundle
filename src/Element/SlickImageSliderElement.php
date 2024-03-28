@@ -13,6 +13,7 @@ use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
 use HeimrichHannot\SlickBundle\Frontend\Slick;
 use HeimrichHannot\SlickBundle\Model\SlickConfigModel;
+use HeimrichHannot\UtilsBundle\Util\Utils;
 
 class SlickImageSliderElement extends ContentGallery
 {
@@ -33,7 +34,7 @@ class SlickImageSliderElement extends ContentGallery
     public function generate()
     {
         // show gallery instead of slickcarousel in backend mode
-        if (System::getContainer()->get('huh.utils.container')->isBackend()) {
+        if (System::getContainer()->get(Utils::class)->container()->isBackend()) {
             return parent::generate();
         }
 
@@ -52,14 +53,14 @@ class SlickImageSliderElement extends ContentGallery
         System::getContainer()->get(FrontendAsset::class)->addFrontendAssets();
 
         // Map content fields to slick fields
-        $this->arrData['slickMultiSRC'] = $this->arrData['multiSRC'];
-        $this->arrData['slickOrderSRC'] = $this->arrData['orderSRC'];
-        $this->arrData['slickSortBy'] = $this->arrData['sortBy'];
-        $this->arrData['slickUseHomeDir'] = $this->arrData['useHomeDir'];
-        $this->arrData['slickSize'] = $this->arrData['size'];
-        $this->arrData['slickFullsize'] = $this->arrData['fullsize'];
-        $this->arrData['slickNumberOfItems'] = $this->arrData['numberOfItems'];
-        $this->arrData['slickCustomTpl'] = $this->arrData['customTpl'];
+        $this->arrData['slickMultiSRC'] = $this->arrData['multiSRC'] ?? null;
+        $this->arrData['slickOrderSRC'] = $this->arrData['orderSRC'] ?? null;
+        $this->arrData['slickSortBy'] = $this->arrData['sortBy'] ?? null;
+        $this->arrData['slickUseHomeDir'] = $this->arrData['useHomeDir'] ?? null;
+        $this->arrData['slickSize'] = $this->arrData['size'] ?? null;
+        $this->arrData['slickFullsize'] = $this->arrData['fullsize'] ?? null;
+        $this->arrData['slickNumberOfItems'] = $this->arrData['numberOfItems'] ?? null;
+        $this->arrData['slickCustomTpl'] = $this->arrData['customTpl'] ?? null;
 
         $gallery = new Slick(Slick::createSettings($this->arrData, $objConfig));
 

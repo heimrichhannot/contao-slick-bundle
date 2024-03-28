@@ -3,6 +3,9 @@
 /**
  * Constants
  */
+
+use Contao\ArrayUtil;
+
 define('SLICK_PALETTE_DEFAULT', 'default');
 define('SLICK_PALETTE_FLAT', 'flat');
 define('SLICK_PALETTE_PRESETCONFIG', 'presetConfig');
@@ -41,12 +44,9 @@ $GLOBALS['TL_SLICK']['SUPPORTED']['tl_module']['slick_combinedlist'] = 'type;[[S
 /**
  * Back end modules
  */
-array_insert($GLOBALS['BE_MOD']['system'], 1, [
-
-    'slick_config' => [
-        'tables' => ['tl_slick_config'],
-    ],
-]);
+$GLOBALS['BE_MOD']['system']['slick_config'] = [
+    'tables' => ['tl_slick_config']
+];
 
 
 /**
@@ -58,7 +58,7 @@ array_insert($GLOBALS['BE_MOD']['system'], 1, [
 /**
  * Content elements
  */
-array_insert($GLOBALS['TL_CTE'], 3, [
+ArrayUtil::arrayInsert($GLOBALS['TL_CTE'], 3, [
     'slick' => [
         \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::TYPE => \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::class,
         \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::TYPE => \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::class,

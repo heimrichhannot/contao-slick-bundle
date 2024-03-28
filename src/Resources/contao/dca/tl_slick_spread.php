@@ -175,7 +175,7 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
             'exclude' => true,
             'inputType' => 'select',
             'default' => 'slick_default',
-            'options_callback' => ['tl_slick_spread', 'getGalleryTemplates'],
+            'options_callback' => [SlickSpreadContainer::class, 'getGalleryTemplates'],
             'eval' => ['tl_class' => 'w50'],
             'sql' => "varchar(64) NOT NULL default ''",
         ],
@@ -215,7 +215,7 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
         'slick_asNavFor' => [
             'label' => &$GLOBALS['TL_LANG']['tl_slick_spread']['slick_asNavFor'],
             'inputType' => 'select',
-            'options_callback' => ['tl_slick_spread', 'getConfigurations'],
+            'options_callback' => [SlickSpreadContainer::class, 'getConfigurations'],
             'eval' => [
                 'includeBlankOption' => true,
                 'tl_class' => 'w50',
@@ -504,7 +504,7 @@ $GLOBALS['TL_DCA']['tl_slick_spread'] = [
                         'slick_settings' => [
                             'label' => &$GLOBALS['TL_LANG']['tl_slick_spread']['slick_settings'],
                             'inputType' => 'select',
-                            'options_callback' => ['tl_slick_spread', 'getConfigurations'],
+                            'options_callback' => [SlickSpreadContainer::class, 'getConfigurations'],
                             'eval' => [
                                 'groupStyle' => 'width:400px',
                                 'includeBlankOption' => true,
@@ -747,45 +747,4 @@ $GLOBALS['TL_DCA']['tl_slick_spread']['fields']['slickMultiSRC']['eval']['orderF
 $GLOBALS['TL_DCA']['tl_slick_spread']['fields']['slickMultiSRC']['eval']['isGallery'] = true;
 
 // Content Support -- set isGallery by type
-$GLOBALS['TL_DCA']['tl_content']['fields']['multiSRC']['load_callback'][] = ['tl_slick_spread', 'setFileTreeFlags'];
-
-class tl_slick_spread extends \Contao\Backend
-{
-    /**
-     * Return all gallery templates as array.
-     *
-     * @return array
-     */
-    public function getGalleryTemplates()
-    {
-        return $this->getTemplateGroup('slick_');
-    }
-
-    public function setFileTreeFlags($varValue, Contao\DataContainer $dc)
-    {
-        if ($dc->activeRecord) {
-            if ('slick' == $dc->activeRecord->type) {
-                $GLOBALS['TL_DCA'][$dc->table]['fields'][$dc->field]['eval']['isGallery'] = true;
-            }
-        }
-
-        return $varValue;
-    }
-
-    public function getConfigurations($dc)
-    {
-        $arrOptions = [];
-
-        $objConfig = \HeimrichHannot\SlickBundle\Model\SlickConfigModel::findBy(['id != ?'], $dc->activeRecord->id);
-
-        if (null === $objConfig) {
-            return $arrOptions;
-        }
-
-        while ($objConfig->next()) {
-            $arrOptions[$objConfig->id] = $objConfig->title;
-        }
-
-        return $arrOptions;
-    }
-}
+$GLOBALS['TL_DCA']['tl_content']['fields']['multiSRC']['load_callback'][] = [SlickSpreadContainer::class, 'setFileTreeFlags'];
