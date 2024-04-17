@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.9.3] - 2024-04-17
+- Fixed: image size not applied ([#81](https://github.com/heimrichhannot/contao-slick-bundle/issues/81))
+
 ## [1.9.2] - 2024-03-28
 - Fixed: various contao 5 and symfony 6 related issues
 
