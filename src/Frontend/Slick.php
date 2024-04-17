@@ -250,13 +250,6 @@ class Slick extends Frontend
         $limit = $total;
 
         $utils = System::getContainer()->get(Utils::class);
-        if ($utils->container()->isBackend()) {
-            $intMaxWidth = floor(640 / $total);
-        } else {
-            $intMaxWidth = Config::get('maxImageWidth') > 0
-                ? floor(Config::get('maxImageWidth') / $total)
-                : null;
-        }
 
         $strLightboxId = 'lightbox[lb'.$this->id.']';
         $body = [];
@@ -280,18 +273,19 @@ class Slick extends Frontend
             $images[$i]['fullsize'] = $this->slickFullsize;
 
             // prior to Contao 5:
-            //   Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
+            // Controller::addImageToTemplate($objImage, $images[$i], $intMaxWidth, $strLightboxId, $images[$i]['model']);
 
             $figureBuilder = System::getContainer()->get('contao.image.studio')->createFigureBuilder();
             $figure = $figureBuilder
                 ->fromFilesModel($images[$i]['model'])
-                ->setSize([$intMaxWidth, $intMaxWidth, 'proportional'])
+                ->setSize(StringUtil::deserialize($this->slickSize))
                 ->enableLightbox((bool) $this->slickFullsize)
                 ->setLightboxGroupIdentifier($strLightboxId)
                 ->setLightboxSize(StringUtil::deserialize($images[$i]['lightboxSize'] ?? null) ?: null)
                 ->buildIfResourceExists();
 
             $figure->applyLegacyTemplateData($objImage);
+
             $body[$i] = $objImage;
         }
 
