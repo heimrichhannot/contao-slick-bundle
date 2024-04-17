@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\SlickBundle\Element;
 
+use Contao\ContentElement;
 use Contao\ContentGallery;
 use Contao\System;
 use HeimrichHannot\SlickBundle\Asset\FrontendAsset;
@@ -38,7 +39,7 @@ class SlickImageSliderElement extends ContentGallery
             return parent::generate();
         }
 
-        parent::generate();
+        ContentElement::generate();
 
         if (!$this->slickConfig) {
             return '';
@@ -70,4 +71,11 @@ class SlickImageSliderElement extends ContentGallery
 
         return $this->Template->parse();
     }
+
+    protected function compile()
+    {
+        return;
+    }
+
+
 }

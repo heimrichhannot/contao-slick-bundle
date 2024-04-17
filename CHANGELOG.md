@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.9.4] - 2024-04-17
+- Fixed: performance issue in slider content element
+
 ## [1.9.3] - 2024-04-17
 - Fixed: image size not applied ([#81](https://github.com/heimrichhannot/contao-slick-bundle/issues/81))
 
