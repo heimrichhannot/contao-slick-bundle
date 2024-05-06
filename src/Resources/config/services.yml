@@ -11,10 +11,7 @@ services:
   huh.slick.model.config:
     class: HeimrichHannot\SlickBundle\Model\SlickConfigModel
     public: true
-    deprecated:
-      message: "Don't use service %service_id% anymore! Model classes are not intended to be used as service. Use the model class directly or as Adapter. Will be removed in a future update!"
-      package: 'heimrichhannot/contao-slick-bundle'
-      version: '1'
+    deprecated: "Don't use service %service_id% anymore! Model classes are not intended to be used as service. Use the model class directly or as Adapter. Will be removed in a future update!"
 
   huh.slick.config:
     class: HeimrichHannot\SlickBundle\Config\SlickConfig
