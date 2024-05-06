@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.9.5] - 2024-05-06
+- Fixed: Contao version limit ^4.9
+- Dropped: Support for Contao 5
+
 ## [1.9.4] - 2024-04-17
 - Fixed: performance issue in slider content element
 
