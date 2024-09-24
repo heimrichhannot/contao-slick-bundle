@@ -5,6 +5,9 @@
  */
 
 use Contao\ArrayUtil;
+use HeimrichHannot\SlickBundle\Element\SlickImageSliderElement;
+use HeimrichHannot\SlickBundle\EventListener\InitializeSystemListener;
+use HeimrichHannot\SlickBundle\EventListener\LoadDataContainerListener;
 
 define('SLICK_PALETTE_DEFAULT', 'default');
 define('SLICK_PALETTE_FLAT', 'flat');
@@ -18,9 +21,9 @@ define('SLICK_PALETTE_CONTENT_SLIDER_END', 'slick-content-end');
  * Hooks
  */
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = ['huh.slick.event_listener.hook_listener', 'onLoadDataContainer'];
-$GLOBALS['TL_HOOKS']['parseArticles'][]     = ['huh.slick.event_listener.hook_listener', 'onParseArticles'];
-$GLOBALS['TL_HOOKS']['loadDataContainer'][] = [\HeimrichHannot\SlickBundle\EventListener\LoadDataContainerListener::class, 'onLoadDataContainer'];
-$GLOBALS['TL_HOOKS']['initializeSystem'][] = [\HeimrichHannot\SlickBundle\EventListener\InitializeSystemListener::class, 'onInitializeSystem'];
+$GLOBALS['TL_HOOKS']['parseArticles'][] = ['huh.slick.event_listener.hook_listener', 'onParseArticles'];
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = [LoadDataContainerListener::class, 'onLoadDataContainer'];
+$GLOBALS['TL_HOOKS']['initializeSystem'][] = [InitializeSystemListener::class, 'onInitializeSystem'];
 
 /**
  * Supported TL_DCA Entities, spreading efa palette to
@@ -60,7 +63,7 @@ $GLOBALS['BE_MOD']['system']['slick_config'] = [
  */
 ArrayUtil::arrayInsert($GLOBALS['TL_CTE'], 3, [
     'slick' => [
-        \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::TYPE => \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::class,
+        SlickImageSliderElement::TYPE => SlickImageSliderElement::class,
         \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::TYPE => \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::class,
         'slick-slide-separator' => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideSeparator',
 //        'slick-slide-start'     => 'HeimrichHannot\SlickBundle\Element\ContentSlickSlideStart',

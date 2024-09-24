@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.10.1] - 2024-09-24
+- Fixed: child element calculation
+
 ## [1.10.0] - 2024-05-06
 - Fixed: Contao version limit ^4.13 || ^5.0
 

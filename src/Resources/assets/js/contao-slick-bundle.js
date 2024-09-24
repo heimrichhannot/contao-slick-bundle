@@ -25,7 +25,7 @@ class SlickBundle
             return;
         }
 
-        let total = slickContainer.childNodes.length;
+        let total = slickContainer.childElementCount;
 
         if (total < 2) {
             // add slick-initialized for non-slick sliders, otherwise the will stay invisible
