@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.9.6] - 2024-10-23
+- Fixed: contao 4.9 incompatible code
+
 ## [1.9.5] - 2024-05-06
 - Fixed: Contao version limit ^4.9
 - Dropped: Support for Contao 5
