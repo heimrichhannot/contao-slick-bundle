@@ -4,8 +4,6 @@
  * Constants
  */
 
-use Contao\ArrayUtil;
-
 define('SLICK_PALETTE_DEFAULT', 'default');
 define('SLICK_PALETTE_FLAT', 'flat');
 define('SLICK_PALETTE_PRESETCONFIG', 'presetConfig');
@@ -58,7 +56,7 @@ $GLOBALS['BE_MOD']['system']['slick_config'] = [
 /**
  * Content elements
  */
-ArrayUtil::arrayInsert($GLOBALS['TL_CTE'], 3, [
+array_insert($GLOBALS['TL_CTE'], 3, [
     'slick' => [
         \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::TYPE => \HeimrichHannot\SlickBundle\Element\SlickImageSliderElement::class,
         \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::TYPE => \HeimrichHannot\SlickBundle\Element\ContentSlickContentStart::class,
