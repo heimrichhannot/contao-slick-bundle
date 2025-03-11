@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.10.2] - 2025-03-11
+- Fixed: `title` now correctly uses `linkTitle` instead of `alt` in `slick_default.html5`
+
 ## [1.10.1] - 2024-09-24
 - Fixed: child element calculation
 
