@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.10.3] - 2026-01-05
+- Fixed: allow symfony 7
+
 ## [1.10.2] - 2025-03-11
 - Fixed: `title` now correctly uses `linkTitle` instead of `alt` in `slick_default.html5`
 
