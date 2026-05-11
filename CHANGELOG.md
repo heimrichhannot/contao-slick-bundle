@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.10.4] - 2026-04-11
+- Fixed: compatibility with encore contract 1.3
+
 ## [1.10.3] - 2026-01-05
 - Fixed: allow symfony 7
 
